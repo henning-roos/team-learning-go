@@ -17,8 +17,8 @@ func returnTrue() bool {
 	return true
 }
 
-func returnStruct() struct {
-    question{question:"What is 1+1?", rightAnswer:"2", wrongAnswers:[2]string{"1", "54"}}
+func returnStruct() question {
+	return question{question: "What is 1+1?", rightAnswer: "2", wrongAnswers: [2]string{"1", "54"}}
 }
 
 func main() {
