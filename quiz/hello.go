@@ -2,7 +2,8 @@ package main
 
 import "fmt"
 
-func hello() {
+func hello() string {
+
     return "Hallo World!"
 }
 
