@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -9,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testQuestion = question{question: "What is 1+1?", rightAnswer: "2", wrongAnswers: [2]string{"1", "54"}}
+var testQuestion = Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: [2]string{"1", "54"}}
 
 func TestHello(t *testing.T) {
 	assert.Equal(t, hello(), "Hello World!", "Test hello world failed!!!")
@@ -22,7 +23,7 @@ func TestHelloFail(t *testing.T) {
 func TestStruct(t *testing.T) {
 	actualStruct := returnStruct()
 	assert.Equal(t, actualStruct, testQuestion, "Didnt return expected")
-	assert.Equal(t, actualStruct.question, "What is 1+1?", "Not correct question")
+	assert.Equal(t, actualStruct.Question, "What is 1+1?", "Not correct question")
 }
 
 func TestMain(t *testing.T) {
@@ -73,6 +74,7 @@ func TestInvalidAnswer(t *testing.T) {
 
 func TestReadJson(t *testing.T) {
 	questions := readJson("questions.json")
-	assert.Equal(t, "What is 1+1?", questions[0].question)
+	fmt.Printf("%+v\n", questions)
+	assert.Equal(t, "What is 1+1?", questions[0].Question)
 	assert.Equal(t, 3, len(questions))
 }
