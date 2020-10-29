@@ -1,14 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 )
 
 type question struct {
 	question     string
 	rightAnswer  string
 	wrongAnswers [2]string
+}
+
+type questionList struct {
+    questions []question
 }
 
 func hello() string {
@@ -48,4 +54,11 @@ func verify(testQuestion question, answer string) (bool, error) {
 	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }
 
-func readJson(jsonFile string)
+func readJson(jsonFile string) []question {
+	file, _ := ioutil.ReadFile(jsonFile)
+
+	data := []question
+
+	_ = json.Unmarshal([]byte(file), &data)
+	return nil
+}

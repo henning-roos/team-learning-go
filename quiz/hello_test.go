@@ -70,3 +70,9 @@ func TestInvalidAnswer(t *testing.T) {
 
 	assert.Error(t, err)
 }
+
+func TestReadJson(t *testing.T) {
+	questions := readJson("questions.json")
+	assert.Equal(t, "What is 1+1?", questions[0].question)
+	assert.Equal(t, 3, len(questions))
+}
