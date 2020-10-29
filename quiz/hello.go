@@ -32,6 +32,7 @@ func countdown(out io.Writer) {
 	fmt.Fprint(out, "3")
 }
 
+// This function verifies that the answer is correct
 func verify(testQuestion question, answer string) (bool, error) {
 
 	if answer == testQuestion.rightAnswer {
@@ -46,3 +47,5 @@ func verify(testQuestion question, answer string) (bool, error) {
 
 	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }
+
+func readJson(jsonFile string)

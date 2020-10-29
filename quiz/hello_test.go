@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -38,7 +37,6 @@ func TestMain(t *testing.T) {
 	os.Stdout = originalStdout
 
 	assert.Equal(t, "Hello World!\n", string(out))
-	fmt.Printf("Captured: %s", out) // prints: Captured: Hello, playground
 }
 
 func TestCountdown(t *testing.T) {
