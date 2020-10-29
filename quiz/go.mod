@@ -1,4 +1,4 @@
-module hello_test.go
+module quiz
 
 go 1.13
 
