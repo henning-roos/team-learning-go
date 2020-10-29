@@ -19,3 +19,7 @@ func TestStruct(t *testing.T) {
 	assert.Equal(t, actualStruct, question{question: "What is 1+1?", rightAnswer: "2", wrongAnswers: [2]string{"1", "54"}}, "Didnt return expected")
 	assert.Equal(t, actualStruct.question, "What is 1+1?", "Not correct question")
 }
+
+func TestMain(t *testing.T) {
+	testify.mock
+}
