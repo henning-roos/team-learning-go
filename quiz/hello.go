@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+)
 
 type question struct {
 	question     string
@@ -23,4 +26,8 @@ func returnStruct() question {
 
 func main() {
 	fmt.Println(hello())
+}
+
+func countdown(out io.Writer) {
+	fmt.Fprint(out, "3")
 }

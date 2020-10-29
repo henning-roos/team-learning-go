@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,6 +21,19 @@ func TestStruct(t *testing.T) {
 	assert.Equal(t, actualStruct.question, "What is 1+1?", "Not correct question")
 }
 
-func TestMain(t *testing.T) {
-	testify.mock
+// func TestMain(t *testing.T) {
+// 	testify.mock
+// }
+
+func TestCountdown(t *testing.T) {
+	buffer := &bytes.Buffer{}
+
+	countdown(buffer)
+
+	got := buffer.String()
+	want := "3"
+
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
 }
