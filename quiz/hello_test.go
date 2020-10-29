@@ -55,19 +55,20 @@ func TestCountdown(t *testing.T) {
 }
 
 func TestWrongAnswer(t *testing.T) {
-    answer := 1
-    actual := verify(testQuestion, answer)
-    assert.False(t, actual)
+	answer := "1"
+	actual, _ := verify(testQuestion, answer)
+	assert.False(t, actual)
 }
 
 func TestCorrectAnswer(t *testing.T) {
-    answer := 2
-    actual := verify(testQuestion, answer)
-    assert.True(t, actual)
+	answer := "2"
+	actual, _ := verify(testQuestion, answer)
+	assert.True(t, actual)
 }
 
 func TestInvalidAnswer(t *testing.T) {
-    answer := nil
-    actual := verify(testQuestion, answer)
-    assert.True(t, actual)
+	var answer string = ""
+	_, err := verify(testQuestion, answer)
+
+	assert.Error(t, err)
 }

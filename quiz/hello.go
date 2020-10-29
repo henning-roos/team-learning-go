@@ -31,3 +31,9 @@ func main() {
 func countdown(out io.Writer) {
 	fmt.Fprint(out, "3")
 }
+
+func verify(testQuestion question, answer string) (bool, error) {
+
+	if answer in testQuestion.rightAnswer or answer in testQuestion.wrongAnswer
+	return answer == testQuestion.rightAnswer, nil
+}
