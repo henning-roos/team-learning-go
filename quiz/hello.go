@@ -34,6 +34,15 @@ func countdown(out io.Writer) {
 
 func verify(testQuestion question, answer string) (bool, error) {
 
-	if answer in testQuestion.rightAnswer or answer in testQuestion.wrongAnswer
-	return answer == testQuestion.rightAnswer, nil
+	if answer == testQuestion.rightAnswer {
+		return true, nil
+	}
+
+	for _, value := range testQuestion.wrongAnswers {
+		if answer == value {
+			return false, nil
+		}
+	}
+
+	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }
