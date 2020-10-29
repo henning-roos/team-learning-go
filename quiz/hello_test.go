@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var testQuestion = question{question: "What is 1+1?", rightAnswer: "2", wrongAnswers: [2]string{"1", "54"}}
+
 func TestHello(t *testing.T) {
 	assert.Equal(t, hello(), "Hello World!", "Test hello world failed!!!")
 }
@@ -20,7 +22,7 @@ func TestHelloFail(t *testing.T) {
 
 func TestStruct(t *testing.T) {
 	actualStruct := returnStruct()
-	assert.Equal(t, actualStruct, question{question: "What is 1+1?", rightAnswer: "2", wrongAnswers: [2]string{"1", "54"}}, "Didnt return expected")
+	assert.Equal(t, actualStruct, testQuestion, "Didnt return expected")
 	assert.Equal(t, actualStruct.question, "What is 1+1?", "Not correct question")
 }
 
@@ -52,7 +54,20 @@ func TestCountdown(t *testing.T) {
 	}
 }
 
+func TestWrongAnswer(t *testing.T) {
+    answer := 1
+    actual := verify(testQuestion, answer)
+    assert.False(t, actual)
+}
+
 func TestCorrectAnswer(t *testing.T) {
-	question := ""
-	answer := 1
+    answer := 2
+    actual := verify(testQuestion, answer)
+    assert.True(t, actual)
+}
+
+func TestInvalidAnswer(t *testing.T) {
+    answer := nil
+    actual := verify(testQuestion, answer)
+    assert.True(t, actual)
 }
