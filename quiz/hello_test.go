@@ -78,3 +78,11 @@ func TestReadJson(t *testing.T) {
 	assert.Equal(t, "What is 1+1?", questions[0].Question)
 	assert.Equal(t, 3, len(questions))
 }
+
+func TestGetUserInput(t *testing.T) {
+	var stdin bytes.Buffer
+	var expected string = ""
+	stdin.Write([]byte(expected))
+	var input = getUserInput(stdin)
+	assert.Equal(expected, input)
+}
