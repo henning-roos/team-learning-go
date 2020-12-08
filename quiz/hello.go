@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"strings"
 )
 
@@ -74,4 +75,12 @@ func getUserInput(stdin io.Reader) (string, error) {
 	}
 	text = strings.TrimSuffix(text, "\n")
 	return text, nil
+}
+
+func randomizeAnswers(answers []string) []string {
+	//TODO: add Seed to truly randomize later
+	// See https://yourbasic.org/golang/shuffle-slice-array/
+	rand.Shuffle(len(answers), func(i, j int) { answers[i], answers[j] = answers[j], answers[i] })
+
+	return answers
 }
