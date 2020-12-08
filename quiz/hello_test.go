@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -74,7 +73,6 @@ func TestInvalidAnswer(t *testing.T) {
 
 func TestReadJson(t *testing.T) {
 	questions := readJson("questions.json")
-	fmt.Printf("%+v\n", questions)
 	assert.Equal(t, "What is 1+1?", questions[0].Question)
 	assert.Equal(t, 3, len(questions))
 }
@@ -82,7 +80,7 @@ func TestReadJson(t *testing.T) {
 func TestGetUserInput(t *testing.T) {
 	var stdin bytes.Buffer
 	var expected string = "2"
-	stdin.Write([]byte(expected))
-	var input = getUserInput(&stdin)
+	stdin.Write([]byte(expected + "\n"))
+	var input, _ = getUserInput(&stdin)
 	assert.Equal(t, expected, input)
 }

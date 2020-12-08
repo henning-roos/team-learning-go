@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"strings"
 )
 
 type Question struct {
@@ -65,11 +66,12 @@ func readJson(jsonFile string) []Question {
 	return data
 }
 
-func getUserInput(stdin io.Reader) string {
+func getUserInput(stdin io.Reader) (string, error) {
 	reader := bufio.NewReader(stdin)
 	text, err := reader.ReadString('\n')
 	if err != nil {
-		return "
+		return "", err
 	}
+	text = strings.TrimSuffix(text, "\n")
 	return text, nil
 }
