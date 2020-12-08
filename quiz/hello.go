@@ -84,3 +84,9 @@ func randomizeAnswers(answers []string) []string {
 
 	return answers
 }
+
+func formatQuestion(testQuestion Question) string {
+	// TODO: Continue here
+	answerOptions := []
+	return fmt.Sprintf("Question: %s\n1: %s\nX: %s\n2: %s", testQuestion.Question, 1, 2, 3)
+}

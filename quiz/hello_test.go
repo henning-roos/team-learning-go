@@ -102,7 +102,12 @@ func TestRandomizeAnswers(t *testing.T) {
 
 func TestFormatQuestion(t *testing.T) {
 	actual := formatQuestion(testQuestion)
-	expected =
+	expected := "Question: What is 1+1?\n" +
+		"1: 1\n" +
+		"X: 2\n" +
+		"2: 54\n" +
+		"Answer: "
+	assert.Equal(t, expected, actual)
 }
 
 // Question: What is 1+1?
