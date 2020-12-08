@@ -94,7 +94,10 @@ func TestGetUserInputError(t *testing.T) {
 }
 
 func TestRandomizeAnswers(t *testing.T) {
-
+	var answers = []string{"A", "B", "C"}
+	var expected = []string{"C", "B", "A"}
+	actual := RandomizeAnswers(answers)
+	assert.Equal(t, expected, actual)
 }
 
 // Question: What is 1+1?
