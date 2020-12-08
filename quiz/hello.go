@@ -56,7 +56,7 @@ func verify(testQuestion Question, answer string) (bool, error) {
 	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }
 
-func readJson(jsonFile string) []Question {
+func readJSON(jsonFile string) []Question {
 	file, _ := ioutil.ReadFile(jsonFile)
 
 	var data []Question

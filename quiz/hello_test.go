@@ -71,8 +71,8 @@ func TestInvalidAnswer(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestReadJson(t *testing.T) {
-	questions := readJson("questions.json")
+func TestReadJSON(t *testing.T) {
+	questions := readJSON("questions.json")
 	assert.Equal(t, "What is 1+1?", questions[0].Question)
 	assert.Equal(t, 3, len(questions))
 }
@@ -84,3 +84,21 @@ func TestGetUserInput(t *testing.T) {
 	var input, _ = getUserInput(&stdin)
 	assert.Equal(t, expected, input)
 }
+
+func TestGetUserInputError(t *testing.T) {
+	var stdin bytes.Buffer
+	stdin.Write([]byte("2"))
+	var input, err = getUserInput(&stdin)
+	assert.Error(t, err)
+	assert.Equal(t, "", input)
+}
+
+func TestRandomizeAnswers(t *testing.T) {
+
+}
+
+// Question: What is 1+1?
+// 1: 2
+// X: 1
+// 2: 53
+// Your answer:
