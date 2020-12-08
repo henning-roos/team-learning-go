@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -62,4 +63,13 @@ func readJson(jsonFile string) []Question {
 	_ = json.Unmarshal([]byte(file), &data)
 
 	return data
+}
+
+func getUserInput(stdin io.Reader) string {
+	reader := bufio.NewReader(stdin)
+	text, err := reader.ReadString('\n')
+	if err != nil {
+		return "
+	}
+	return text, nil
 }

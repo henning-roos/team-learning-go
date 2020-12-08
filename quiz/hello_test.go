@@ -81,8 +81,8 @@ func TestReadJson(t *testing.T) {
 
 func TestGetUserInput(t *testing.T) {
 	var stdin bytes.Buffer
-	var expected string = ""
+	var expected string = "2"
 	stdin.Write([]byte(expected))
-	var input = getUserInput(stdin)
-	assert.Equal(expected, input)
+	var input = getUserInput(&stdin)
+	assert.Equal(t, expected, input)
 }
