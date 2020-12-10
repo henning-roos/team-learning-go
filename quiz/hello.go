@@ -11,9 +11,9 @@ import (
 )
 
 type Question struct {
-	Question     string    `json:"question"`
-	RightAnswer  string    `json:"rightAnswer"`
-	WrongAnswers [2]string `json:"wrongAnswers"`
+	Question     string   `json:"question"`
+	RightAnswer  string   `json:"rightAnswer"`
+	WrongAnswers []string `json:"wrongAnswers"`
 }
 
 type questionList struct {
@@ -87,6 +87,7 @@ func randomizeAnswers(answers []string) []string {
 
 func formatQuestion(testQuestion Question) string {
 	// TODO: Continue here
-	answerOptions := []
+	var answerOptions = testQuestion.WrongAnswers
+	answerOptions = append(answerOptions, testQuestion.RightAnswer)
 	return fmt.Sprintf("Question: %s\n1: %s\nX: %s\n2: %s", testQuestion.Question, 1, 2, 3)
 }
