@@ -10,6 +10,10 @@ import (
 	"strings"
 )
 
+type Quiz struct {
+	questions questionList
+}
+
 type Question struct {
 	Question     string   `json:"question"`
 	RightAnswer  string   `json:"rightAnswer"`
