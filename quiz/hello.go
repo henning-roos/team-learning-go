@@ -30,7 +30,7 @@ func returnTrue() bool {
 }
 
 func returnStruct() Question {
-	return Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: [2]string{"1", "54"}}
+	return Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: []string{"1", "54"}}
 }
 
 func main() {
@@ -86,8 +86,14 @@ func randomizeAnswers(answers []string) []string {
 }
 
 func formatQuestion(testQuestion Question) string {
-	// TODO: Continue here
 	var answerOptions = testQuestion.WrongAnswers
 	answerOptions = append(answerOptions, testQuestion.RightAnswer)
-	return fmt.Sprintf("Question: %s\n1: %s\nX: %s\n2: %s", testQuestion.Question, 1, 2, 3)
+	randomizedAnswers := randomizeAnswers(answerOptions)
+	return fmt.Sprintf(
+		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ", 
+		testQuestion.Question, 
+		randomizedAnswers[0], 
+		randomizedAnswers[1], 
+		randomizedAnswers[2]
+	)
 }

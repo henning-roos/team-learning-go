@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testQuestion = Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: [2]string{"1", "54"}}
+var testQuestion = Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: []string{"1", "54"}}
 
 func TestHello(t *testing.T) {
 	assert.Equal(t, hello(), "Hello World!", "Test hello world failed!!!")
