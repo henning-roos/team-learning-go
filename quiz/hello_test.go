@@ -25,12 +25,12 @@ func TestStruct(t *testing.T) {
 	assert.Equal(t, actualStruct.Question, "What is 1+1?", "Not correct question")
 }
 
-func TestMain(t *testing.T) {
+func TestPrintHello(t *testing.T) {
 	originalStdout := os.Stdout
 	read, write, _ := os.Pipe()
 	os.Stdout = write
 
-	main()
+	printHello()
 
 	write.Close()
 	out, _ := ioutil.ReadAll(read)
@@ -95,7 +95,7 @@ func TestGetUserInputError(t *testing.T) {
 
 func TestRandomizeAnswers(t *testing.T) {
 	var answers = []string{"A", "B", "C"}
-	var expected = []string{"A", "C", "B"}
+	var expected = []string{"B", "A", "C"}
 	actual := randomizeAnswers(answers)
 	assert.Equal(t, expected, actual)
 }
@@ -103,9 +103,9 @@ func TestRandomizeAnswers(t *testing.T) {
 func TestFormatQuestion(t *testing.T) {
 	actual := formatQuestion(testQuestion)
 	expected := "Question: What is 1+1?\n" +
-		"1: 1\n" +
-		"X: 2\n" +
-		"2: 54\n" +
+		"1: 54\n" +
+		"X: 1\n" +
+		"2: 2\n" +
 		"Answer: "
 	assert.Equal(t, expected, actual)
 }
@@ -115,3 +115,7 @@ func TestFormatQuestion(t *testing.T) {
 // X: 1
 // 2: 53
 // Your answer:
+
+func TestMain(t *testing.T) {
+
+}

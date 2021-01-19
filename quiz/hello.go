@@ -33,7 +33,7 @@ func returnStruct() Question {
 	return Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: []string{"1", "54"}}
 }
 
-func main() {
+func printHello() {
 	fmt.Println(hello())
 }
 
@@ -80,6 +80,7 @@ func getUserInput(stdin io.Reader) (string, error) {
 func randomizeAnswers(answers []string) []string {
 	//TODO: add Seed to truly randomize later
 	// See https://yourbasic.org/golang/shuffle-slice-array/
+	rand.Seed(0) // predictable shuffling
 	rand.Shuffle(len(answers), func(i, j int) { answers[i], answers[j] = answers[j], answers[i] })
 
 	return answers
@@ -90,10 +91,13 @@ func formatQuestion(testQuestion Question) string {
 	answerOptions = append(answerOptions, testQuestion.RightAnswer)
 	randomizedAnswers := randomizeAnswers(answerOptions)
 	return fmt.Sprintf(
-		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ", 
-		testQuestion.Question, 
-		randomizedAnswers[0], 
-		randomizedAnswers[1], 
-		randomizedAnswers[2]
-	)
+		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ",
+		testQuestion.Question,
+		randomizedAnswers[0],
+		randomizedAnswers[1],
+		randomizedAnswers[2])
+}
+
+func main() {
+
 }
