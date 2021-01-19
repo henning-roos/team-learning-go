@@ -125,14 +125,14 @@ type Foo struct {
 	mock.Mock
 }
 
-func (m *Foo) Bar() {
-	m.Called()
+func (myMock *Foo) Bar() {
+	myMock.Called()
 }
 
 func TestFoo(t *testing.T) {
-	m := &Foo{}
-	m.On("Bar").Return(nil)
+	myMock := &Foo{}
+	myMock.On("Bar").Return(nil)
 
-	m.Bar()
-	m.AssertCalled(t, "Bar")
+	myMock.Bar()
+	myMock.AssertCalled(t, "Bar")
 }
