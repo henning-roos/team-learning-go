@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 var testQuestion = Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: []string{"1", "54"}}
@@ -118,4 +119,20 @@ func TestFormatQuestion(t *testing.T) {
 
 func TestMain(t *testing.T) {
 
+}
+
+type Foo struct {
+	mock.Mock
+}
+
+func (m *Foo) Bar() {
+	m.Called()
+}
+
+func TestFoo(t *testing.T) {
+	m := &Foo{}
+	m.On("Bar").Return(nil)
+
+	m.Bar()
+	m.AssertCalled(t, "Bar")
 }
