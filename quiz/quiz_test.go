@@ -59,17 +59,19 @@ func TestRandomizeAnswers(t *testing.T) {
 }
 
 func TestFormatQuestion(t *testing.T) {
-	actual := quiz.formatQuestion(testQuestion)
-	expected := "Question: What is 1+1?\n" +
+	actualQandA, actualAnswers := quiz.formatQuestion(testQuestion)
+	expectedQandA := "Question: What is 1+1?\n" +
 		"1: 54\n" +
 		"X: 1\n" +
 		"2: 2\n" +
 		"Answer: "
-	assert.Equal(t, expected, actual)
+	expectedAnswers := []string{"54", "1", "2"}
+	assert.Equal(t, expectedQandA, actualQandA)
+	assert.Equal(t)
 }
 
 func TestPlayQuiz(t *testing.T) {
 	questions := quiz.readQuestionsFromJSON("questions.json")
-	formattedQuestion = quiz.formatQuestion(questions[0])
+	//formattedQuestion = quiz.formatQuestion(questions[0])
 	quiz.verify(questions[0], "54")
 }

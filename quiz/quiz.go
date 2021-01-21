@@ -65,14 +65,16 @@ func (quiz *Quiz) randomizeAnswers(answers []string) []string {
 	return answers
 }
 
-func (quiz *Quiz) formatQuestion(testQuestion Question) string {
+func (quiz *Quiz) formatQuestion(testQuestion Question) (string, []string) {
 	var answerOptions = testQuestion.WrongAnswers
 	answerOptions = append(answerOptions, testQuestion.RightAnswer)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions)
-	return fmt.Sprintf(
+	questionAndAnswers := fmt.Sprintf(
 		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ",
 		testQuestion.Question,
 		randomizedAnswers[0],
 		randomizedAnswers[1],
 		randomizedAnswers[2])
+
+	return questionAndAnswers, randomizedAnswers
 }
