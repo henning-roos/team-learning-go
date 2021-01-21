@@ -20,9 +20,7 @@ type questionList struct {
 	questions []Question
 }
 
-type Quiz struct {
-	questions questionList
-}
+type Quiz struct{}
 
 // This function verifies that the answer is correct
 func (quiz *Quiz) verify(testQuestion Question, answer string) (bool, error) {
@@ -40,10 +38,10 @@ func (quiz *Quiz) verify(testQuestion Question, answer string) (bool, error) {
 	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }
 
-func (quiz *Quiz) readJSON(jsonFile string) []Question {
+func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) questionList {
 	file, _ := ioutil.ReadFile(jsonFile)
 
-	var data []Question
+	var data questionList
 
 	_ = json.Unmarshal([]byte(file), &data)
 
