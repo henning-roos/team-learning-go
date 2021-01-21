@@ -45,23 +45,26 @@ func TestRandomizeAnswers(t *testing.T) {
 }
 
 func TestFormatQuestion(t *testing.T) {
-	actualQandA, actualAnswers := quiz.formatQuestion(testQuestion)
+	answerMap := map[string]string{
+		"1": "Java",
+		"X": "Python",
+		"2": "Go",
+	}
+	actualQandA := quiz.formatQuestion(testQuestion, answerMap)
 	expectedQandA := "Question: Which language is this written in?\n" +
 		"1: Java\n" +
 		"X: Python\n" +
 		"2: Go\n" +
 		"Answer: "
-	expectedAnswers := []string{"Java", "Python", "Go"}
 	assert.Equal(t, expectedQandA, actualQandA)
-	assert.Equal(t, expectedAnswers, actualAnswers)
 }
 
-func TestGetAnswerStruct(t *testing.T) {
+func TestGetAnswerMap(t *testing.T) {
 	actual := quiz.getAnswerMap(testQuestion)
 	expected := map[string]string{
 		"1": "Java",
-		"x": "python",
-		"2": "go",
+		"X": "Python",
+		"2": "Go",
 	}
 
 	assert.Equal(t, expected, actual)

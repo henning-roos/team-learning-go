@@ -49,18 +49,15 @@ func (quiz *Quiz) randomizeAnswers(answers []string) []string {
 	return answers
 }
 
-func (quiz *Quiz) formatQuestion(testQuestion Question) (string, []string) {
-	var answerOptions = testQuestion.WrongAnswers
-	answerOptions = append(answerOptions, testQuestion.RightAnswer)
-	randomizedAnswers := quiz.randomizeAnswers(answerOptions)
+func (quiz *Quiz) formatQuestion(question Question, answerMap map[string]string) string {
 	questionAndAnswers := fmt.Sprintf(
 		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ",
-		testQuestion.Question,
-		randomizedAnswers[0],
-		randomizedAnswers[1],
-		randomizedAnswers[2])
+		question.Question,
+		answerMap["1"],
+		answerMap["X"],
+		answerMap["2"])
 
-	return questionAndAnswers, randomizedAnswers
+	return questionAndAnswers
 }
 
 func (quiz *Quiz) getAnswerMap(question Question) map[string]string {
@@ -70,7 +67,7 @@ func (quiz *Quiz) getAnswerMap(question Question) map[string]string {
 
 	return map[string]string{
 		"1": randomizedAnswers[0],
-		"x": randomizedAnswers[1],
+		"X": randomizedAnswers[1],
 		"2": randomizedAnswers[2],
 	}
 
