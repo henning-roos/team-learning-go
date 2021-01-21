@@ -10,10 +10,6 @@ import (
 	"strings"
 )
 
-type Quiz struct {
-	questions questionList
-}
-
 type Question struct {
 	Question     string   `json:"question"`
 	RightAnswer  string   `json:"rightAnswer"`
@@ -24,8 +20,12 @@ type questionList struct {
 	questions []Question
 }
 
+type Quiz struct {
+	questions questionList
+}
+
 // This function verifies that the answer is correct
-func verify(testQuestion Question, answer string) (bool, error) {
+func (quiz *Quiz) verify(testQuestion Question, answer string) (bool, error) {
 
 	if answer == testQuestion.RightAnswer {
 		return true, nil
@@ -40,7 +40,7 @@ func verify(testQuestion Question, answer string) (bool, error) {
 	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }
 
-func readJSON(jsonFile string) []Question {
+func (quiz *Quiz) readJSON(jsonFile string) []Question {
 	file, _ := ioutil.ReadFile(jsonFile)
 
 	var data []Question
@@ -50,7 +50,7 @@ func readJSON(jsonFile string) []Question {
 	return data
 }
 
-func getUserInput(stdin io.Reader) (string, error) {
+func (quiz *Quiz) getUserInput(stdin io.Reader) (string, error) {
 	reader := bufio.NewReader(stdin)
 	text, err := reader.ReadString('\n')
 	if err != nil {
@@ -60,7 +60,7 @@ func getUserInput(stdin io.Reader) (string, error) {
 	return text, nil
 }
 
-func randomizeAnswers(answers []string) []string {
+func (quiz *Quiz) randomizeAnswers(answers []string) []string {
 	//TODO: add Seed to truly randomize later
 	// See https://yourbasic.org/golang/shuffle-slice-array/
 	rand.Seed(0) // predictable shuffling
@@ -69,10 +69,10 @@ func randomizeAnswers(answers []string) []string {
 	return answers
 }
 
-func formatQuestion(testQuestion Question) string {
+func (quiz *Quiz) formatQuestion(testQuestion Question) string {
 	var answerOptions = testQuestion.WrongAnswers
 	answerOptions = append(answerOptions, testQuestion.RightAnswer)
-	randomizedAnswers := randomizeAnswers(answerOptions)
+	randomizedAnswers := quiz.randomizeAnswers(answerOptions)
 	return fmt.Sprintf(
 		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ",
 		testQuestion.Question,
