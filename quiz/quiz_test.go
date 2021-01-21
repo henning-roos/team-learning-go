@@ -67,3 +67,9 @@ func TestFormatQuestion(t *testing.T) {
 		"Answer: "
 	assert.Equal(t, expected, actual)
 }
+
+func TestPlayQuiz(t *testing.T) {
+	questions := quiz.readQuestionsFromJSON("questions.json")
+	formattedQuestion = quiz.formatQuestion(questions[0])
+	quiz.verify(questions[0], "54")
+}
