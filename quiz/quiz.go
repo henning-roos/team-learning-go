@@ -76,12 +76,16 @@ func (quiz *Quiz) getAnswerMap(question Question) map[string]string {
 // This function verifies that the answer is correct
 func (quiz *Quiz) verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
-	if userInput == question.RightAnswer {
+	//Assume userInput is 1, X or 2
+	userAnswer := answerMap[userInput]
+	fmt.Println("TEST:" + userAnswer)
+
+	if userAnswer == question.RightAnswer {
 		return true, nil
 	}
 
 	for _, value := range question.WrongAnswers {
-		if userInput == value {
+		if userAnswer == value {
 			return false, nil
 		}
 	}

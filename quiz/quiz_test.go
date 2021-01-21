@@ -66,7 +66,7 @@ func TestGetAnswerMap(t *testing.T) {
 }
 
 func TestWrongAnswer(t *testing.T) {
-	userInput := "x"
+	userInput := "a"
 	actual, _ := quiz.verify(testQuestion, testAnswerMap, userInput)
 	assert.False(t, actual)
 }
@@ -84,8 +84,8 @@ func TestInvalidAnswer(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestPlayQuiz(t *testing.T) {
-	questions := quiz.readQuestionsFromJSON("questions.json")
-	//formattedQuestion = quiz.formatQuestion(questions[0])
-	quiz.verify(questions[0], "54")
-}
+// func TestPlayQuiz(t *testing.T) {
+// 	questions := quiz.readQuestionsFromJSON("questions.json")
+// 	//formattedQuestion = quiz.formatQuestion(questions[0])
+// 	quiz.verify(questions[0], "54")
+// }
