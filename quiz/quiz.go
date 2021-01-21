@@ -64,6 +64,15 @@ func (quiz *Quiz) formatQuestion(testQuestion Question) (string, []string) {
 }
 
 func (quiz *Quiz) getAnswerMap(question Question) map[string]string {
+	var answerOptions = question.WrongAnswers
+	answerOptions = append(answerOptions, question.RightAnswer)
+	randomizedAnswers := quiz.randomizeAnswers(answerOptions)
+
+	return map[string]string{
+		"1": randomizedAnswers[0],
+		"x": randomizedAnswers[1],
+		"2": randomizedAnswers[2],
+	}
 
 }
 

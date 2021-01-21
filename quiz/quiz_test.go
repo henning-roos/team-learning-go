@@ -57,7 +57,7 @@ func TestFormatQuestion(t *testing.T) {
 }
 
 func TestGetAnswerStruct(t *testing.T) {
-	actual := quiz.getAnswerStruct(testQuestion)
+	actual := quiz.getAnswerMap(testQuestion)
 	expected := map[string]string{
 		"1": "Java",
 		"x": "python",
