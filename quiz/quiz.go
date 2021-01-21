@@ -74,17 +74,17 @@ func (quiz *Quiz) getAnswerMap(question Question) map[string]string {
 }
 
 // This function verifies that the answer is correct
-func (quiz *Quiz) verify(testQuestion Question, answer string) (bool, error) {
+func (quiz *Quiz) verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
-	if answer == testQuestion.RightAnswer {
+	if userInput == question.RightAnswer {
 		return true, nil
 	}
 
-	for _, value := range testQuestion.WrongAnswers {
-		if answer == value {
+	for _, value := range question.WrongAnswers {
+		if userInput == value {
 			return false, nil
 		}
 	}
 
-	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
+	return false, fmt.Errorf("The specified answer is invalid answer: %s", userInput)
 }

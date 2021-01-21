@@ -13,6 +13,12 @@ var testQuestion = Question{
 	WrongAnswers: []string{"Python", "Java"},
 }
 
+var testAnswerMap = map[string]string{
+	"1": "Java",
+	"X": "Python",
+	"2": "Go",
+}
+
 var quiz = Quiz{}
 
 func TestReadQuestionsFromJSON(t *testing.T) {
@@ -45,12 +51,7 @@ func TestRandomizeAnswers(t *testing.T) {
 }
 
 func TestFormatQuestion(t *testing.T) {
-	answerMap := map[string]string{
-		"1": "Java",
-		"X": "Python",
-		"2": "Go",
-	}
-	actualQandA := quiz.formatQuestion(testQuestion, answerMap)
+	actualQandA := quiz.formatQuestion(testQuestion, testAnswerMap)
 	expectedQandA := "Question: Which language is this written in?\n" +
 		"1: Java\n" +
 		"X: Python\n" +
@@ -61,30 +62,24 @@ func TestFormatQuestion(t *testing.T) {
 
 func TestGetAnswerMap(t *testing.T) {
 	actual := quiz.getAnswerMap(testQuestion)
-	expected := map[string]string{
-		"1": "Java",
-		"X": "Python",
-		"2": "Go",
-	}
-
-	assert.Equal(t, expected, actual)
+	assert.Equal(t, testAnswerMap, actual)
 }
 
 func TestWrongAnswer(t *testing.T) {
-	answer := "Java"
-	actual, _ := quiz.verify(testQuestion, answer)
+	userInput := "x"
+	actual, _ := quiz.verify(testQuestion, testAnswerMap, userInput)
 	assert.False(t, actual)
 }
 
 func TestCorrectAnswer(t *testing.T) {
-	answer := "Go"
-	actual, _ := quiz.verify(testQuestion, answer)
+	userInput := "2"
+	actual, _ := quiz.verify(testQuestion, testAnswerMap, userInput)
 	assert.True(t, actual)
 }
 
 func TestInvalidAnswer(t *testing.T) {
-	var answer string = ""
-	_, err := quiz.verify(testQuestion, answer)
+	var userInput string = ""
+	_, err := quiz.verify(testQuestion, testAnswerMap, userInput)
 
 	assert.Error(t, err)
 }
