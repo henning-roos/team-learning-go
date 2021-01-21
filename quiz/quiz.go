@@ -20,22 +20,6 @@ type Quiz struct {
 	questions []Question
 }
 
-// This function verifies that the answer is correct
-func (quiz *Quiz) verify(testQuestion Question, answer string) (bool, error) {
-
-	if answer == testQuestion.RightAnswer {
-		return true, nil
-	}
-
-	for _, value := range testQuestion.WrongAnswers {
-		if answer == value {
-			return false, nil
-		}
-	}
-
-	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
-}
-
 func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) []Question {
 	file, _ := ioutil.ReadFile(jsonFile)
 
@@ -77,4 +61,24 @@ func (quiz *Quiz) formatQuestion(testQuestion Question) (string, []string) {
 		randomizedAnswers[2])
 
 	return questionAndAnswers, randomizedAnswers
+}
+
+func (quiz *Quiz) getAnswerMap(question Question) map[string]string {
+
+}
+
+// This function verifies that the answer is correct
+func (quiz *Quiz) verify(testQuestion Question, answer string) (bool, error) {
+
+	if answer == testQuestion.RightAnswer {
+		return true, nil
+	}
+
+	for _, value := range testQuestion.WrongAnswers {
+		if answer == value {
+			return false, nil
+		}
+	}
+
+	return false, fmt.Errorf("The specified answer is invalid answer: %s", answer)
 }

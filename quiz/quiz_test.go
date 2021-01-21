@@ -8,13 +8,12 @@ import (
 )
 
 var testQuestion = Question{
-	Question: "Which language is this written in?", 
-	RightAnswer: "Go", 
-	WrongAnswers: []string{"Python", "Java"}
+	Question:     "Which language is this written in?",
+	RightAnswer:  "Go",
+	WrongAnswers: []string{"Python", "Java"},
 }
 
 var quiz = Quiz{}
-
 
 func TestReadQuestionsFromJSON(t *testing.T) {
 	questions := quiz.readQuestionsFromJSON("questions.json")
@@ -57,16 +56,15 @@ func TestFormatQuestion(t *testing.T) {
 	assert.Equal(t, expectedAnswers, actualAnswers)
 }
 
-func TestGetAnswerString(t *testing.T) {
-	answers := []string{"Java", "Python", "Go"}
-	userInput := "X"
-	/*
-	{ 
-	  1: Java,
-	  x: python,
-	  2: go
+func TestGetAnswerStruct(t *testing.T) {
+	actual := quiz.getAnswerStruct(testQuestion)
+	expected := map[string]string{
+		"1": "Java",
+		"x": "python",
+		"2": "go",
 	}
-	*/
+
+	assert.Equal(t, expected, actual)
 }
 
 func TestWrongAnswer(t *testing.T) {
@@ -87,7 +85,6 @@ func TestInvalidAnswer(t *testing.T) {
 
 	assert.Error(t, err)
 }
-
 
 func TestPlayQuiz(t *testing.T) {
 	questions := quiz.readQuestionsFromJSON("questions.json")
