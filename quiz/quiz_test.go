@@ -7,17 +7,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testQuestion = Question{Question: "What is 1+1?", RightAnswer: "2", WrongAnswers: []string{"1", "54"}}
+var testQuestion = Question{Question: "Which language is this written in?", RightAnswer: "Go", WrongAnswers: []string{"Python", "Java"}}
 var quiz = Quiz{}
 
 func TestWrongAnswer(t *testing.T) {
-	answer := "1"
+	answer := "Java"
 	actual, _ := quiz.verify(testQuestion, answer)
 	assert.False(t, actual)
 }
 
 func TestCorrectAnswer(t *testing.T) {
-	answer := "2"
+	answer := "Go"
 	actual, _ := quiz.verify(testQuestion, answer)
 	assert.True(t, actual)
 }
@@ -60,14 +60,18 @@ func TestRandomizeAnswers(t *testing.T) {
 
 func TestFormatQuestion(t *testing.T) {
 	actualQandA, actualAnswers := quiz.formatQuestion(testQuestion)
-	expectedQandA := "Question: What is 1+1?\n" +
-		"1: 54\n" +
-		"X: 1\n" +
-		"2: 2\n" +
+	expectedQandA := "Question: Which language is this written in?\n" +
+		"1: Java\n" +
+		"X: Python\n" +
+		"2: Go\n" +
 		"Answer: "
-	expectedAnswers := []string{"54", "1", "2"}
+	expectedAnswers := []string{"Java", "Python", "Go"}
 	assert.Equal(t, expectedQandA, actualQandA)
-	assert.Equal(t)
+	assert.Equal(t, expectedAnswers, actualAnswers)
+}
+
+func TestGetAnswerString(t *testing.T) {
+
 }
 
 func TestPlayQuiz(t *testing.T) {
