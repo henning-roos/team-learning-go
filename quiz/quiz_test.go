@@ -7,27 +7,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testQuestion = Question{Question: "Which language is this written in?", RightAnswer: "Go", WrongAnswers: []string{"Python", "Java"}}
+var testQuestion = Question{
+	Question: "Which language is this written in?", 
+	RightAnswer: "Go", 
+	WrongAnswers: []string{"Python", "Java"}
+}
+
 var quiz = Quiz{}
 
-func TestWrongAnswer(t *testing.T) {
-	answer := "Java"
-	actual, _ := quiz.verify(testQuestion, answer)
-	assert.False(t, actual)
-}
-
-func TestCorrectAnswer(t *testing.T) {
-	answer := "Go"
-	actual, _ := quiz.verify(testQuestion, answer)
-	assert.True(t, actual)
-}
-
-func TestInvalidAnswer(t *testing.T) {
-	var answer string = ""
-	_, err := quiz.verify(testQuestion, answer)
-
-	assert.Error(t, err)
-}
 
 func TestReadQuestionsFromJSON(t *testing.T) {
 	questions := quiz.readQuestionsFromJSON("questions.json")
@@ -71,8 +58,36 @@ func TestFormatQuestion(t *testing.T) {
 }
 
 func TestGetAnswerString(t *testing.T) {
-
+	answers := []string{"Java", "Python", "Go"}
+	userInput := "X"
+	/*
+	{ 
+	  1: Java,
+	  x: python,
+	  2: go
+	}
+	*/
 }
+
+func TestWrongAnswer(t *testing.T) {
+	answer := "Java"
+	actual, _ := quiz.verify(testQuestion, answer)
+	assert.False(t, actual)
+}
+
+func TestCorrectAnswer(t *testing.T) {
+	answer := "Go"
+	actual, _ := quiz.verify(testQuestion, answer)
+	assert.True(t, actual)
+}
+
+func TestInvalidAnswer(t *testing.T) {
+	var answer string = ""
+	_, err := quiz.verify(testQuestion, answer)
+
+	assert.Error(t, err)
+}
+
 
 func TestPlayQuiz(t *testing.T) {
 	questions := quiz.readQuestionsFromJSON("questions.json")
