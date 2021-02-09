@@ -17,7 +17,7 @@ type Question struct {
 }
 
 type QuizInterface interface {
-	ReadQuestionsFromJSON(string)
+	ReadQuestionsFromJSON(jsonFile string) []Question
 	GetUserInput()
 	FormatQuestion()
 	GetAnswerMap()

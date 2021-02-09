@@ -10,8 +10,9 @@ type QuizMock struct {
 	mock.Mock
 }
 
-func (quizMock *QuizMock) ReadQuestionsFromJSON() {
+func (quizMock *QuizMock) ReadQuestionsFromJSON(jsonFile string) []Question {
 	quizMock.Called()
+	return nil
 }
 
 func (quizMock *QuizMock) GetUserInput() {
