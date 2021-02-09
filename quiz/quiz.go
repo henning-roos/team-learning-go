@@ -18,10 +18,10 @@ type Question struct {
 
 type QuizInterface interface {
 	ReadQuestionsFromJSON(jsonFile string) []Question
-	GetUserInput()
-	FormatQuestion()
-	GetAnswerMap()
-	Verify()
+	GetAnswerMap(question Question) map[string]string
+	GetUserInput(stdin io.Reader) (string, error)
+	FormatQuestion(question Question, answerMap map[string]string) string
+	Verify(question Question, answerMap map[string]string, userInput string) (bool, error)
 }
 
 type Quiz struct {
