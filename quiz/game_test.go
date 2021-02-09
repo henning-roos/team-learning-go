@@ -38,6 +38,8 @@ func TestGame(t *testing.T) {
 	quizMock.On("GetAnswerMap").Return(nil)
 	quizMock.On("Verify").Return(nil)
 
+	main(quizMock)
+
 	quizMock.AssertCalled(t, "ReadQuestionsFromJSON")
 	quizMock.AssertCalled(t, "GetUserInput")
 	quizMock.AssertCalled(t, "FormatQuestion")

@@ -16,6 +16,14 @@ type Question struct {
 	WrongAnswers []string `json:"wrongAnswers"`
 }
 
+type QuizInterface interface {
+	ReadQuestionsFromJSON(string)
+	GetUserInput()
+	FormatQuestion()
+	GetAnswerMap()
+	Verify()
+}
+
 type Quiz struct {
 	questions []Question
 }

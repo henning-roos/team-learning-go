@@ -1,5 +1,5 @@
 package quiz
 
-func main() {
+func main(quiz QuizInterface) {
 
 }
