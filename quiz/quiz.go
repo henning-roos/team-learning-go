@@ -78,10 +78,6 @@ func (quiz *Quiz) verify(question Question, answerMap map[string]string, userInp
 
 	//Assume userInput is 1, X or 2
 	userAnswer := answerMap[userInput]
-	fmt.Println("TEST: " + userAnswer)
-	if len(userAnswer) == 0 {
-		fmt.Println("Please type 1, X or 2")
-	}
 
 	if userAnswer == question.RightAnswer {
 		return true, nil

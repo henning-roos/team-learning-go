@@ -66,7 +66,7 @@ func TestGetAnswerMap(t *testing.T) {
 }
 
 func TestWrongAnswer(t *testing.T) {
-	userInput := "a"
+	userInput := "1"
 	actual, _ := quiz.verify(testQuestion, testAnswerMap, userInput)
 	assert.False(t, actual)
 }
