@@ -18,12 +18,13 @@ type QuizMock struct {
 }
 
 func (quizMock *QuizMock) ReadQuestionsFromJSON(jsonFile string) []Question {
-	quizMock.Called()
-	//return quizMock.args[0]
-	return []Question{testQuestion}
+	//TODO: understand why all calls gets the same parameter
+	args := quizMock.Called(jsonFile)
+	return args.Get(0).([]Question)
 }
 
 func (quizMock *QuizMock) GetAnswerMap(question Question) map[string]string {
+	//TODO: Fix all the return values
 	quizMock.Called()
 	return nil
 }
@@ -45,9 +46,7 @@ func (quizMock *QuizMock) Verify(question Question, answerMap map[string]string,
 
 func TestGame(t *testing.T) {
 	quizMock := &QuizMock{}
-	//quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
-	//quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return(nil)
-	quizMock.On("ReadQuestionsFromJSON", mock.Anything)
+	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 
 	//Return(nil, mock.AnythingOfType("error"))
 
