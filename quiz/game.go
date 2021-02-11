@@ -31,6 +31,6 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 		fmt.Println(verificationError)
 		// TODO: retry if answer is wrong
 	}
-
+	fmt.Printf("Result is: %t\n", result)
 	return nil
 }
