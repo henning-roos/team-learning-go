@@ -12,7 +12,7 @@ func main() {
 	run(quiz, stdin)
 }
 
-func run(quiz QuizInterface, stdin io.Reader) {
+func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 
 	//TODO, make a loop
@@ -21,5 +21,11 @@ func run(quiz QuizInterface, stdin io.Reader) {
 
 	fmt.Println(quiz.FormatQuestion(question, answer))
 
-	quiz.GetUserInput(stdin)
+	userInput, inputError := quiz.GetUserInput(stdin)
+	if inputError != nil {
+		return inputError
+	}
+	quiz.Verify(question, answer, userInput)
+
+	return nil
 }

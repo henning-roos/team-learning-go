@@ -55,5 +55,5 @@ func TestGame(t *testing.T) {
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion)
 	quizMock.AssertCalled(t, "GetUserInput", &stdin)
 	quizMock.AssertCalled(t, "FormatQuestion", testQuestion, testAnswerMap)
-	// quizMock.AssertCalled(t, "Verify")
+	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "1")
 }
