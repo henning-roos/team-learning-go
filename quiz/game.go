@@ -25,7 +25,12 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 	if inputError != nil {
 		return inputError
 	}
-	quiz.Verify(question, answer, userInput)
+	result, verificationError := quiz.Verify(question, answer, userInput)
+
+	if verificationError != nil {
+		fmt.Println(verificationError)
+		// TODO: retry if answer is wrong
+	}
 
 	return nil
 }

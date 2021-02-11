@@ -33,7 +33,7 @@ func (quizMock *QuizMock) FormatQuestion(question Question, answerMap map[string
 }
 
 func (quizMock *QuizMock) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
-	args := quizMock.Called(question, answerMap)
+	args := quizMock.Called(question, answerMap, userInput)
 	return args.Bool(0), args.Error(1)
 }
 
@@ -42,8 +42,8 @@ func TestGame(t *testing.T) {
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
-	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("a")
-	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything)
+	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
+	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, nil)
 	//Return(nil, mock.AnythingOfType("error"))
 
 	var stdin bytes.Buffer
