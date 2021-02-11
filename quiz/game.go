@@ -1,13 +1,25 @@
 package quiz
 
-import "bytes"
+import (
+	"fmt"
+	"io"
+	"os"
+)
 
-func main(quiz QuizInterface) {
+func main() {
+	stdin := os.Stdin
+	quiz := &Quiz{}
+	run(quiz, stdin)
+}
+
+func run(quiz QuizInterface, stdin io.Reader) {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 
 	//TODO, make a loop
-	quiz.GetAnswerMap(questions[0])
+	question := questions[0]
+	answer := quiz.GetAnswerMap(question)
 
-	var stdin bytes.Buffer
-	quiz.GetUserInput(&stdin)
+	fmt.Println(quiz.FormatQuestion(question, answer))
+
+	quiz.GetUserInput(stdin)
 }

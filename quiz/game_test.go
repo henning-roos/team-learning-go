@@ -42,18 +42,18 @@ func TestGame(t *testing.T) {
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
-	quizMock.On("FormatQuestion", mock.Anything, mock.Anything)
+	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("a")
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything)
 	//Return(nil, mock.AnythingOfType("error"))
-
-	main(quizMock)
 
 	var stdin bytes.Buffer
 	stdin.Write([]byte("1"))
 
+	run(quizMock, &stdin)
+
 	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion)
 	quizMock.AssertCalled(t, "GetUserInput", &stdin)
-	// quizMock.AssertCalled(t, "FormatQuestion")
+	quizMock.AssertCalled(t, "FormatQuestion", testQuestion, testAnswerMap)
 	// quizMock.AssertCalled(t, "Verify")
 }
