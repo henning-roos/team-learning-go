@@ -1,6 +1,7 @@
 package quiz
 
 import (
+	"bytes"
 	"io"
 	"testing"
 
@@ -22,36 +23,37 @@ func (quizMock *QuizMock) GetAnswerMap(question Question) map[string]string {
 }
 
 func (quizMock *QuizMock) GetUserInput(stdin io.Reader) (string, error) {
-	args := quizMock.Called()
+	args := quizMock.Called(stdin)
 	return args.String(0), args.Error(1)
 }
 
 func (quizMock *QuizMock) FormatQuestion(question Question, answerMap map[string]string) string {
-	args := quizMock.Called()
-	return ""
+	args := quizMock.Called(question, answerMap)
+	return args.String(0)
 }
 
 func (quizMock *QuizMock) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
-	args := quizMock.Called()
-	return false, nil
+	args := quizMock.Called(question, answerMap)
+	return args.Bool(0), args.Error(1)
 }
 
 func TestGame(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
-
-	//Return(nil, mock.AnythingOfType("error"))
-
-	quizMock.On("GetAnswerMap", mock.Anything)
-	quizMock.On("GetUserInput", mock.Anything)
+	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
+	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything)
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything)
+	//Return(nil, mock.AnythingOfType("error"))
 
 	main(quizMock)
 
+	var stdin bytes.Buffer
+	stdin.Write([]byte("1"))
+
 	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
-	quizMock.AssertCalled(t, "GetAnswerMap")
-	quizMock.AssertCalled(t, "GetUserInput")
-	quizMock.AssertCalled(t, "FormatQuestion")
-	quizMock.AssertCalled(t, "Verify")
+	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion)
+	quizMock.AssertCalled(t, "GetUserInput", &stdin)
+	// quizMock.AssertCalled(t, "FormatQuestion")
+	// quizMock.AssertCalled(t, "Verify")
 }
