@@ -15,22 +15,26 @@ func main() {
 func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 
-	//TODO, make a loop
+	// TODO: make a loop for the questions.json
 	question := questions[0]
 	answer := quiz.GetAnswerMap(question)
 
 	fmt.Println(quiz.FormatQuestion(question, answer))
 
-	userInput, inputError := quiz.GetUserInput(stdin)
-	if inputError != nil {
-		return inputError
-	}
-	result, verificationError := quiz.Verify(question, answer, userInput)
+	for {
+		userInput, inputError := quiz.GetUserInput(stdin)
+		if inputError != nil {
+			return inputError
+		}
+		result, verificationError := quiz.Verify(question, answer, userInput)
 
-	if verificationError != nil {
-		fmt.Println(verificationError)
-		// TODO: retry if answer is wrong
+		if verificationError != nil {
+			fmt.Println(verificationError)
+		} else {
+			fmt.Printf("Result is: %t\n", result)
+			break
+		}
 	}
-	fmt.Printf("Result is: %t\n", result)
+
 	return nil
 }
