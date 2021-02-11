@@ -2,6 +2,7 @@ package quiz
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"testing"
 
@@ -93,13 +94,15 @@ func TestGameVerificationError(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
-	quizMock.On("GetUserInput", mock.Anything).Return("bad input", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
-	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, nil)
+	quizMock.On("GetUserInput", mock.Anything).Return("bad input", nil).Once()
+	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, fmt.Errorf("mock error")).Once()
+	quizMock.On("GetUserInput", mock.Anything).Return("2", nil).Once()
+	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(true, nil).Once()
 	//Return(nil, mock.AnythingOfType("error"))
 
 	var stdin bytes.Buffer
-	stdin.Write([]byte("1"))
+	stdin.Write([]byte("dumy"))
 
 	run(quizMock, &stdin)
 
@@ -108,9 +111,10 @@ func TestGameVerificationError(t *testing.T) {
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
 	quizMock.AssertCalled(t, "GetUserInput", &stdin)
-	quizMock.AssertNumberOfCalls(t, "GetUserInput", 1)
+	quizMock.AssertNumberOfCalls(t, "GetUserInput", 2)
 	quizMock.AssertCalled(t, "FormatQuestion", testQuestion, testAnswerMap)
 	quizMock.AssertNumberOfCalls(t, "FormatQuestion", 1)
-	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "1")
-	quizMock.AssertNumberOfCalls(t, "Verify", 1)
+	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "bad input")
+	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "2")
+	quizMock.AssertNumberOfCalls(t, "Verify", 2)
 }
