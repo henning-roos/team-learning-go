@@ -48,7 +48,7 @@ func TestGameAnswerCorrect(t *testing.T) {
 	//Return(nil, mock.AnythingOfType("error"))
 
 	var stdin bytes.Buffer
-	stdin.Write([]byte("2"))
+	stdin.Write([]byte("dummy"))
 
 	run(quizMock, &stdin)
 
@@ -74,7 +74,7 @@ func TestGameAnswerWrong(t *testing.T) {
 	//Return(nil, mock.AnythingOfType("error"))
 
 	var stdin bytes.Buffer
-	stdin.Write([]byte("1"))
+	stdin.Write([]byte("dummy"))
 
 	run(quizMock, &stdin)
 
@@ -102,7 +102,7 @@ func TestGameVerificationError(t *testing.T) {
 	//Return(nil, mock.AnythingOfType("error"))
 
 	var stdin bytes.Buffer
-	stdin.Write([]byte("dumy"))
+	stdin.Write([]byte("dummy"))
 
 	run(quizMock, &stdin)
 
@@ -119,6 +119,34 @@ func TestGameVerificationError(t *testing.T) {
 	quizMock.AssertNumberOfCalls(t, "Verify", 2)
 }
 
-func TestGameVerificationError(t *testing.T) {
+func TestGameVerificationError2(t *testing.T) {
+	quizMock := &QuizMock{}
+	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion, testQuestion2})
+	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap).Once()
+	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
+	quizMock.On("GetUserInput", mock.Anything).Return("2", nil).Once()
+	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(true, nil).Once()
+	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap2).Once()
+	quizMock.On("GetUserInput", mock.Anything).Return("X", nil).Once()
+	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, nil).Once()
+	//Return(nil, mock.AnythingOfType("error"))
 
+	var stdin bytes.Buffer
+	stdin.Write([]byte("dummy"))
+
+	run(quizMock, &stdin)
+
+	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
+	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)
+	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion)
+	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion2)
+	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 2)
+	quizMock.AssertCalled(t, "GetUserInput", &stdin)
+	quizMock.AssertNumberOfCalls(t, "GetUserInput", 2)
+	quizMock.AssertCalled(t, "FormatQuestion", testQuestion, testAnswerMap)
+	quizMock.AssertCalled(t, "FormatQuestion", testQuestion2, testAnswerMap2)
+	quizMock.AssertNumberOfCalls(t, "FormatQuestion", 2)
+	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "2")
+	quizMock.AssertCalled(t, "Verify", testQuestion2, testAnswerMap2, "X")
+	quizMock.AssertNumberOfCalls(t, "Verify", 2)
 }

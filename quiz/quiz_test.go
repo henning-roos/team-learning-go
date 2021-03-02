@@ -25,6 +25,12 @@ var testAnswerMap = map[string]string{
 	"2": "Go",
 }
 
+var testAnswerMap2 = map[string]string{
+	"1": "Black",
+	"X": "Red",
+	"2": "Green",
+}
+
 var quiz = Quiz{}
 
 func TestReadQuestionsFromJSON(t *testing.T) {
