@@ -1,4 +1,4 @@
-package quiz
+package main
 
 import (
 	"bytes"
@@ -11,6 +11,12 @@ var testQuestion = Question{
 	Question:     "Which language is this written in?",
 	RightAnswer:  "Go",
 	WrongAnswers: []string{"Python", "Java"},
+}
+
+var testQuestion2 = Question{
+	Question:     "What is blue and yellow together? (using watercolors)",
+	RightAnswer:  "Green",
+	WrongAnswers: []string{"Red", "Black"},
 }
 
 var testAnswerMap = map[string]string{

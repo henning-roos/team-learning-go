@@ -1,4 +1,4 @@
-package quiz
+package main
 
 import (
 	"bytes"
@@ -117,4 +117,8 @@ func TestGameVerificationError(t *testing.T) {
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "bad input")
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "2")
 	quizMock.AssertNumberOfCalls(t, "Verify", 2)
+}
+
+func TestGameVerificationError(t *testing.T) {
+
 }
