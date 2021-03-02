@@ -6,4 +6,5 @@ TODO:
 - Add negative tests for main loop
 - Track score
 - Write the rules of the game
-- Fix the modules (go.sum, go.mod?)
+- Fix the modules: to only have 1 go.sum and 1 go.mod for the project
+- Add more questions to the quiz (loop?)

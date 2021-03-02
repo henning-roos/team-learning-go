@@ -80,6 +80,7 @@ func TestCorrectAnswer(t *testing.T) {
 func TestInvalidAnswer(t *testing.T) {
 	var userInput string = ""
 	_, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
+	//var test = 0
 
 	assert.Error(t, err)
 }

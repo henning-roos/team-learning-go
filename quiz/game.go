@@ -28,12 +28,11 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 		}
 		result, verificationError := quiz.Verify(question, answer, userInput)
 
-		if verificationError != nil {
-			fmt.Println(verificationError)
-		} else {
+		if verificationError == nil {
 			fmt.Printf("Result is: %t\n", result)
 			break
 		}
+		fmt.Println(verificationError)
 	}
 
 	return nil
