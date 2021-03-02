@@ -92,6 +92,13 @@ func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInp
 	return false, fmt.Errorf("The specified answer is invalid answer: %s", userInput)
 }
 
+// Function that format the result printout to console
+func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) string {
+	resultString := fmt.Sprintf("You got %d of %d correct answers.", numberCorrectAnswers, numberQuestions)
+
+	return resultString
+}
+
 func (quiz *Quiz) randomizeAnswers(answers []string) []string {
 	//TODO: add Seed to truly randomize later
 	// See https://yourbasic.org/golang/shuffle-slice-array/

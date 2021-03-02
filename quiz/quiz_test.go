@@ -105,6 +105,15 @@ func TestInvalidAnswer(t *testing.T) {
 	assert.Error(t, err)
 }
 
+func TestFormatResult(t *testing.T) {
+	numberCorrectAnswers := 1
+	numberQuestions := 2
+	formattedResult := quiz.FormatResult(numberCorrectAnswers, numberQuestions)
+	expected := "You got 1 of 2 correct answers."
+
+	assert.Equal(t, expected, formattedResult)
+}
+
 // func TestPlayQuiz(t *testing.T) {
 // 	questions := quiz.readQuestionsFromJSON("questions.json")
 // 	//formattedQuestion = quiz.formatQuestion(questions[0])
