@@ -45,6 +45,7 @@ func (quiz *Quiz) GetUserInput(stdin io.Reader) (string, error) {
 		return "", err
 	}
 	text = strings.TrimSuffix(text, "\n")
+	text = strings.TrimSuffix(text, "\r")
 	return text, nil
 }
 

@@ -47,6 +47,14 @@ func TestGetUserInput(t *testing.T) {
 	assert.Equal(t, expected, input)
 }
 
+func TestGetUserInputWindows(t *testing.T) {
+	var stdin bytes.Buffer
+	var expected string = "2"
+	stdin.Write([]byte(expected + "\r\n"))
+	var input, _ = quiz.GetUserInput(&stdin)
+	assert.Equal(t, expected, input)
+}
+
 func TestGetUserInputError(t *testing.T) {
 	var stdin bytes.Buffer
 	stdin.Write([]byte("2"))
