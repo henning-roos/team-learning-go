@@ -6,6 +6,7 @@ import (
 	"io"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -134,7 +135,8 @@ func TestGameVerificationError2(t *testing.T) {
 	var stdin bytes.Buffer
 	stdin.Write([]byte("dummy"))
 
-	run(quizMock, &stdin)
+	result, _ := run(quizMock, &stdin)
+	assert.Equal(t, "You got 1 of 2 correct answers", result)
 
 	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
 	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)

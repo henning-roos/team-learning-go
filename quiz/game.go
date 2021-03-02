@@ -15,7 +15,6 @@ func main() {
 func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 
-	// TODO: make a loop for the questions.json
 	for _, question := range questions {
 		answer := quiz.GetAnswerMap(question)
 
@@ -35,6 +34,9 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 			fmt.Println(verificationError)
 		}
 	}
+
+	// result := quiz.formatResult(correctAnswers, len(questions))
+	// fmt.Println(result)
 
 	return nil
 }
