@@ -66,8 +66,8 @@ func TestGetUserInputError(t *testing.T) {
 func TestRandomizeAnswers(t *testing.T) {
 	var answers = []string{"A", "B", "C"}
 	var expected = []string{"B", "A", "C"}
-	var seed int64 = 0
-	actual := quiz.randomizeAnswers(answers, seed)
+	var randomizeAnswers bool = false
+	actual := quiz.randomizeAnswers(answers, randomizeAnswers)
 	assert.Equal(t, expected, actual)
 }
 
@@ -82,15 +82,16 @@ func TestFormatQuestion(t *testing.T) {
 }
 
 func TestGetAnswerMap(t *testing.T) {
-	var seed int64 = 0
-	actual := quiz.GetAnswerMap(testQuestion, seed)
+	var randomizeAnswers bool = false
+	actual := quiz.GetAnswerMap(testQuestion, randomizeAnswers)
 	assert.Equal(t, testAnswerMap, actual)
 }
 
 func TestWrongAnswer(t *testing.T) {
 	userInput := "1"
-	actual, _ := quiz.Verify(testQuestion, testAnswerMap, userInput)
+	actual, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
 	assert.False(t, actual)
+	assert.Equal(t, nil, err)
 }
 
 func TestCaseSensitivityAnswer(t *testing.T) {
@@ -102,15 +103,14 @@ func TestCaseSensitivityAnswer(t *testing.T) {
 
 func TestCorrectAnswer(t *testing.T) {
 	userInput := "2"
-	actual, _ := quiz.Verify(testQuestion, testAnswerMap, userInput)
+	actual, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
 	assert.True(t, actual)
+	assert.Equal(t, nil, err)
 }
 
 func TestInvalidAnswer(t *testing.T) {
 	var userInput string = ""
 	_, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
-	//var test = 0
-
 	assert.Error(t, err)
 }
 

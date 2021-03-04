@@ -24,6 +24,8 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 		fmt.Println(quiz.FormatQuestion(question, answer))
 		for {
 			userInput, inputError := quiz.GetUserInput(stdin)
+			fmt.Println("what was the option?")
+			fmt.Println(userInput)
 			if inputError != nil {
 				return inputError
 			}

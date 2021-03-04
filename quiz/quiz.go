@@ -80,6 +80,11 @@ func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInp
 
 	//Assume userInput is 1, x, X or 2
 	userAnswer := answerMap[strings.ToUpper(userInput)]
+	fmt.Println("converted userinput to Uppercase" + strings.ToUpper(userInput))
+	fmt.Println("usrAnswer from map is: " + userAnswer)
+	fmt.Println(answerMap)
+	fmt.Println("right answer from map: " +  question.RightAnswer)
+	fmt.Println("wrong answers from map: " +  question.WrongAnswers)
 
 	if userAnswer == question.RightAnswer {
 		return true, nil
