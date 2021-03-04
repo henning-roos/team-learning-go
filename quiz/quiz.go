@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"strings"
+	"time"
 )
 
 type Question struct {
@@ -18,7 +19,7 @@ type Question struct {
 
 type QuizInterface interface {
 	ReadQuestionsFromJSON(jsonFile string) []Question
-	GetAnswerMap(question Question) map[string]string
+	GetAnswerMap(question Question, seed int64) map[string]string
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
 	Verify(question Question, answerMap map[string]string, userInput string) (bool, error)
@@ -61,10 +62,13 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 	return questionAndAnswers
 }
 
-func (quiz *Quiz) GetAnswerMap(question Question) map[string]string {
+func (quiz *Quiz) GetAnswerMap(question Question, seed int64) map[string]string {
 	var answerOptions = question.WrongAnswers
 	answerOptions = append(answerOptions, question.RightAnswer)
-	randomizedAnswers := quiz.randomizeAnswers(answerOptions)
+	if seed != 0 {
+		seed = time.Now().UnixNano()
+	}
+	randomizedAnswers := quiz.randomizeAnswers(answerOptions, seed)
 
 	return map[string]string{
 		"1": randomizedAnswers[0],
@@ -100,10 +104,10 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 	return resultString
 }
 
-func (quiz *Quiz) randomizeAnswers(answers []string) []string {
+func (quiz *Quiz) randomizeAnswers(answers []string, seed int64) []string {
 	//TODO: add Seed to truly randomize later
 	// See https://yourbasic.org/golang/shuffle-slice-array/
-	rand.Seed(0) // predictable shuffling
+	rand.Seed(seed) // predictable shuffling
 	rand.Shuffle(len(answers), func(i, j int) { answers[i], answers[j] = answers[j], answers[i] })
 
 	return answers

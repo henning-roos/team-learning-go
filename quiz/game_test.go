@@ -18,8 +18,8 @@ func (quizMock *QuizMock) ReadQuestionsFromJSON(jsonFile string) []Question {
 	return args.Get(0).([]Question)
 }
 
-func (quizMock *QuizMock) GetAnswerMap(question Question) map[string]string {
-	args := quizMock.Called(question)
+func (quizMock *QuizMock) GetAnswerMap(question Question, seed int64) map[string]string {
+	args := quizMock.Called(question, seed)
 	return args.Get(0).(map[string]string)
 }
 
