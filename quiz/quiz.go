@@ -22,7 +22,7 @@ type QuizInterface interface {
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
 	Verify(question Question, answerMap map[string]string, userInput string) (bool, error)
-	FormatResult(correctAnswers int, numberQuestions int) (string)
+	FormatResult(correctAnswers int, numberQuestions int) string
 }
 
 type Quiz struct {
@@ -77,8 +77,8 @@ func (quiz *Quiz) GetAnswerMap(question Question) map[string]string {
 // This function verifies that the answer is correct
 func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
-	//Assume userInput is 1, X or 2
-	userAnswer := answerMap[userInput]
+	//Assume userInput is 1, x, X or 2
+	userAnswer := answerMap[strings.ToUpper(userInput)]
 
 	if userAnswer == question.RightAnswer {
 		return true, nil
