@@ -25,25 +25,23 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 			if inputError != nil {
 				return inputError
 			}
-			result, verificationError := quiz.Verify(question, answer, userInput)
+			isAnswerCorrect, verificationError := quiz.Verify(question, answer, userInput)
 
 			if verificationError == nil {
-				fmt.Printf("Result is: %t\n", result)
+				fmt.Printf("Result is: %t\n", isAnswerCorrect)
+				if isAnswerCorrect {
+					correctAnswers++
+				}
 				break
+			} else {
+				fmt.Println(verificationError)
 			}
-			fmt.Println("Result and Correct Answers")
-			fmt.Println(result)
-			fmt.Println(correctAnswers)
 
-			fmt.Println(verificationError)
-			if result == true {
-				correctAnswers = correctAnswers + 1
-			}
 		}
 	}
 
-	result := quiz.FormatResult(correctAnswers, len(questions))
-	fmt.Println(result)
+	formattedResult := quiz.FormatResult(correctAnswers, len(questions))
+	fmt.Println(formattedResult)
 
 	return nil
 }

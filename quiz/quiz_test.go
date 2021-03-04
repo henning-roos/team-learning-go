@@ -91,6 +91,13 @@ func TestWrongAnswer(t *testing.T) {
 	assert.False(t, actual)
 }
 
+func TestCaseSensitivityAnswer(t *testing.T) {
+	userInput := "x"
+	actual, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
+	assert.False(t, actual)
+	assert.Equal(t, nil, err)
+}
+
 func TestCorrectAnswer(t *testing.T) {
 	userInput := "2"
 	actual, _ := quiz.Verify(testQuestion, testAnswerMap, userInput)
