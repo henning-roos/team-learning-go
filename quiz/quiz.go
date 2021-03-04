@@ -79,18 +79,20 @@ func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string
 func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
 	//Assume userInput is 1, x, X or 2
+	fmt.Println("Userinput before toUpper:|" + userInput + "|")
 	userAnswer := answerMap[strings.ToUpper(userInput)]
 	fmt.Println("converted userinput to Uppercase" + strings.ToUpper(userInput))
 	fmt.Println("usrAnswer from map is: " + userAnswer)
 	fmt.Println(answerMap)
-	fmt.Println("right answer from map: " +  question.RightAnswer)
-	fmt.Println("wrong answers from map: " +  question.WrongAnswers)
+	fmt.Println("right answer from map: " + question.RightAnswer)
+	fmt.Printf("wrong answers from map: %v \n", question.WrongAnswers)
 
 	if userAnswer == question.RightAnswer {
 		return true, nil
 	}
 
 	for _, value := range question.WrongAnswers {
+		fmt.Printf("Compare Useranswer %s with wront answer %s \n", userAnswer, value)
 		if userAnswer == value {
 			return false, nil
 		}
