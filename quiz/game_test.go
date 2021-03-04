@@ -38,6 +38,11 @@ func (quizMock *QuizMock) Verify(question Question, answerMap map[string]string,
 	return args.Bool(0), args.Error(1)
 }
 
+func (quizMock *QuizMock) FormatResult(numberCorrectAnswers int, numberQuestions int) string {
+	args := quizMock.Called(numberCorrectAnswers, numberQuestions)
+	return args.String(0)
+}
+
 func TestRun_AnswerCorrect(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})

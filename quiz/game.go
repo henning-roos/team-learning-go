@@ -31,15 +31,19 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 				fmt.Printf("Result is: %t\n", result)
 				break
 			}
+			fmt.Println("Result and Correct Answers")
+			fmt.Println(result)
+			fmt.Println(correctAnswers)
+
 			fmt.Println(verificationError)
-			if result {
-				correctAnswers ++
+			if result == true {
+				correctAnswers = correctAnswers + 1
 			}
 		}
 	}
 
 	result := quiz.FormatResult(correctAnswers, len(questions))
-	// fmt.Println(result)
+	fmt.Println(result)
 
 	return nil
 }
