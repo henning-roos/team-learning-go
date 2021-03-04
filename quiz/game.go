@@ -14,12 +14,12 @@ func main() {
 
 func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
+	correctAnswers := 0
 
 	for _, question := range questions {
 		answer := quiz.GetAnswerMap(question)
 
 		fmt.Println(quiz.FormatQuestion(question, answer))
-
 		for {
 			userInput, inputError := quiz.GetUserInput(stdin)
 			if inputError != nil {
@@ -32,10 +32,13 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 				break
 			}
 			fmt.Println(verificationError)
+			if result {
+				correctAnswers ++
+			}
 		}
 	}
 
-	// result := quiz.formatResult(correctAnswers, len(questions))
+	result := quiz.FormatResult(correctAnswers, len(questions))
 	// fmt.Println(result)
 
 	return nil

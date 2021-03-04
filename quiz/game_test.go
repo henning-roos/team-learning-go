@@ -38,14 +38,14 @@ func (quizMock *QuizMock) Verify(question Question, answerMap map[string]string,
 	return args.Bool(0), args.Error(1)
 }
 
-func TestGameAnswerCorrect(t *testing.T) {
+func TestRun_AnswerCorrect(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(true, nil)
-	//Return(nil, mock.AnythingOfType("error"))
+	quizMock.On("FormatResult", mock.Anything, mock.Anything).Return("Formatted result")
 
 	var stdin bytes.Buffer
 	stdin.Write([]byte("dummy"))
@@ -62,16 +62,18 @@ func TestGameAnswerCorrect(t *testing.T) {
 	quizMock.AssertNumberOfCalls(t, "FormatQuestion", 1)
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "2")
 	quizMock.AssertNumberOfCalls(t, "Verify", 1)
+	quizMock.AssertCalled(t, "FormatResult", 1, 1)
+	quizMock.AssertNumberOfCalls(t, "FormatResult", 1)
 }
 
-func TestGameAnswerWrong(t *testing.T) {
+func TestRun_AnswerWrong(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, nil)
-	//Return(nil, mock.AnythingOfType("error"))
+	quizMock.On("FormatResult", mock.Anything, mock.Anything).Return("Formatted result")
 
 	var stdin bytes.Buffer
 	stdin.Write([]byte("dummy"))
@@ -88,9 +90,11 @@ func TestGameAnswerWrong(t *testing.T) {
 	quizMock.AssertNumberOfCalls(t, "FormatQuestion", 1)
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "1")
 	quizMock.AssertNumberOfCalls(t, "Verify", 1)
+	quizMock.AssertCalled(t, "FormatResult", 0, 1)
+	quizMock.AssertNumberOfCalls(t, "FormatResult", 1)
 }
 
-func TestGameVerificationError(t *testing.T) {
+func TestRun_AnswerInvalid(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap)
@@ -99,7 +103,7 @@ func TestGameVerificationError(t *testing.T) {
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, fmt.Errorf("mock error")).Once()
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil).Once()
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(true, nil).Once()
-	//Return(nil, mock.AnythingOfType("error"))
+	quizMock.On("FormatResult", mock.Anything, mock.Anything).Return("Formatted result")
 
 	var stdin bytes.Buffer
 	stdin.Write([]byte("dummy"))
@@ -117,9 +121,11 @@ func TestGameVerificationError(t *testing.T) {
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "bad input")
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "2")
 	quizMock.AssertNumberOfCalls(t, "Verify", 2)
+	quizMock.AssertCalled(t, "FormatResult", 1, 1)
+	quizMock.AssertNumberOfCalls(t, "FormatResult", 1)
 }
 
-func TestGameVerificationError2(t *testing.T) {
+func TestRun_MultipleQuestions(t *testing.T) {
 	quizMock := &QuizMock{}
 	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion, testQuestion2})
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap).Once()
@@ -129,13 +135,12 @@ func TestGameVerificationError2(t *testing.T) {
 	quizMock.On("GetAnswerMap", mock.Anything).Return(testAnswerMap2).Once()
 	quizMock.On("GetUserInput", mock.Anything).Return("X", nil).Once()
 	quizMock.On("Verify", mock.Anything, mock.Anything, mock.Anything).Return(false, nil).Once()
-	//Return(nil, mock.AnythingOfType("error"))
+	quizMock.On("FormatResult", mock.Anything, mock.Anything).Return("Formatted result")
 
 	var stdin bytes.Buffer
 	stdin.Write([]byte("dummy"))
 
 	run(quizMock, &stdin)
-	//assert.Equal(t, "You got 1 of 2 correct answers", result)
 
 	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
 	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)
@@ -150,4 +155,6 @@ func TestGameVerificationError2(t *testing.T) {
 	quizMock.AssertCalled(t, "Verify", testQuestion, testAnswerMap, "2")
 	quizMock.AssertCalled(t, "Verify", testQuestion2, testAnswerMap2, "X")
 	quizMock.AssertNumberOfCalls(t, "Verify", 2)
+	quizMock.AssertCalled(t, "FormatResult", 1, 2)
+	quizMock.AssertNumberOfCalls(t, "FormatResult", 1)
 }

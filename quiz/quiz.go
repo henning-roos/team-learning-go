@@ -22,6 +22,7 @@ type QuizInterface interface {
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
 	Verify(question Question, answerMap map[string]string, userInput string) (bool, error)
+	FormatResult(correctAnswers int, numberQuestions int) (string)
 }
 
 type Quiz struct {
