@@ -78,14 +78,17 @@ func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string
 // This function verifies that the answer is correct
 func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
+	// fmt.Printf("QUESTION: %v\n", question)
+	// fmt.Printf("ANSWERMAP: %v\n", answerMap)
+
 	//Assume userInput is 1, x, X or 2
-	fmt.Println("Userinput before toUpper:|" + userInput + "|")
+	// fmt.Println("Userinput before toUpper:|" + userInput + "|")
 	userAnswer := answerMap[strings.ToUpper(userInput)]
-	fmt.Println("converted userinput to Uppercase" + strings.ToUpper(userInput))
-	fmt.Println("usrAnswer from map is: " + userAnswer)
-	fmt.Println(answerMap)
-	fmt.Println("right answer from map: " + question.RightAnswer)
-	fmt.Printf("wrong answers from map: %v \n", question.WrongAnswers)
+	// fmt.Println("converted userinput to Uppercase" + strings.ToUpper(userInput))
+	// fmt.Println("usrAnswer from map is: " + userAnswer)
+	// fmt.Println(answerMap)
+	// fmt.Println("right answer from map: " + question.RightAnswer)
+	// fmt.Printf("wrong answers from map: %v \n", question.WrongAnswers)
 
 	if userAnswer == question.RightAnswer {
 		return true, nil
@@ -110,7 +113,7 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 
 func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []string {
 
-	var seed int64 = 0 // Default to 0 for deterministic testing
+	var seed int64 = 12 // Default to 0 for deterministic testing
 
 	if randomizeSeed {
 		// See https://yourbasic.org/golang/shuffle-slice-array/

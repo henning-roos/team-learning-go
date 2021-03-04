@@ -1,13 +1,5 @@
 [
     {
-        "question": "What is 1+1?",
-        "rightAnswer": "2",
-        "wrongAnswers": [
-            "1",
-            "53"
-        ]
-    },
-    {
         "question": "What is blue and yellow together? (using watercolors)",
         "rightAnswer": "Green",
         "wrongAnswers": [
@@ -21,6 +13,14 @@
         "wrongAnswers": [
             "Bus",
             "Wagon"
+        ]
+    },
+    {
+        "question": "What is 1+1?",
+        "rightAnswer": "2",
+        "wrongAnswers": [
+            "1",
+            "53"
         ]
     }
 ]
