@@ -66,7 +66,7 @@ func TestGetUserInputError(t *testing.T) {
 func TestRandomizeAnswers(t *testing.T) {
 	var answers = []string{"A", "B", "C"}
 	var expected = []string{"B", "A", "C"}
-	seed := 0
+	var seed int64 = 0
 	actual := quiz.randomizeAnswers(answers, seed)
 	assert.Equal(t, expected, actual)
 }
@@ -82,7 +82,7 @@ func TestFormatQuestion(t *testing.T) {
 }
 
 func TestGetAnswerMap(t *testing.T) {
-	seed := 0
+	var seed int64 = 0
 	actual := quiz.GetAnswerMap(testQuestion, seed)
 	assert.Equal(t, testAnswerMap, actual)
 }

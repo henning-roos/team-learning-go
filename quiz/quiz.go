@@ -19,7 +19,7 @@ type Question struct {
 
 type QuizInterface interface {
 	ReadQuestionsFromJSON(jsonFile string) []Question
-	GetAnswerMap(question Question, seed int64) map[string]string
+	GetAnswerMap(question Question, randomizeAnswers bool) map[string]string
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
 	Verify(question Question, answerMap map[string]string, userInput string) (bool, error)
@@ -62,13 +62,10 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 	return questionAndAnswers
 }
 
-func (quiz *Quiz) GetAnswerMap(question Question, seed int64) map[string]string {
+func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string]string {
 	var answerOptions = question.WrongAnswers
 	answerOptions = append(answerOptions, question.RightAnswer)
-	if seed != 0 {
-		seed = time.Now().UnixNano()
-	}
-	randomizedAnswers := quiz.randomizeAnswers(answerOptions, seed)
+	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
 
 	return map[string]string{
 		"1": randomizedAnswers[0],
@@ -104,10 +101,16 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 	return resultString
 }
 
-func (quiz *Quiz) randomizeAnswers(answers []string, seed int64) []string {
-	//TODO: add Seed to truly randomize later
-	// See https://yourbasic.org/golang/shuffle-slice-array/
-	rand.Seed(seed) // predictable shuffling
+func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []string {
+
+	var seed int64 = 0 // Default to 0 for deterministic testing
+
+	if randomizeSeed {
+		// See https://yourbasic.org/golang/shuffle-slice-array/
+		seed = time.Now().UnixNano()
+	}
+
+	rand.Seed(seed)
 	rand.Shuffle(len(answers), func(i, j int) { answers[i], answers[j] = answers[j], answers[i] })
 
 	return answers

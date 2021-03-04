@@ -12,12 +12,14 @@ func main() {
 	run(quiz, stdin)
 }
 
+const randomizeAnswers bool = true
+
 func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 	correctAnswers := 0
 
 	for _, question := range questions {
-		answer := quiz.GetAnswerMap(question)
+		answer := quiz.GetAnswerMap(question, randomizeAnswers)
 
 		fmt.Println(quiz.FormatQuestion(question, answer))
 		for {
