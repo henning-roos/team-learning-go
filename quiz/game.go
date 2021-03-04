@@ -18,20 +18,13 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 	correctAnswers := 0
 
-	fmt.Printf("QUESTIONS (from JSON): %v\n", questions)
-
 	for _, question := range questions {
-		fmt.Printf("SINGLE QUESTION (before getAnswerMap): %v\n", question)
-
 		answer := quiz.GetAnswerMap(question, randomizeAnswers)
-		fmt.Printf("SINGLE QUESTION (after getAnswerMap): %v\n", question)
 
 		fmt.Println(quiz.FormatQuestion(question, answer))
 
 		for {
 			userInput, inputError := quiz.GetUserInput(stdin)
-			fmt.Println("what was the option?")
-			fmt.Println(userInput)
 			if inputError != nil {
 				return inputError
 			}

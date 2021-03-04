@@ -63,7 +63,8 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 }
 
 func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string]string {
-	var answerOptions = question.WrongAnswers
+	var answerOptions = make([]string, 2)
+	copy(answerOptions, question.WrongAnswers)
 	answerOptions = append(answerOptions, question.RightAnswer)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
 
@@ -78,24 +79,14 @@ func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string
 // This function verifies that the answer is correct
 func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
-	// fmt.Printf("QUESTION: %v\n", question)
-	// fmt.Printf("ANSWERMAP: %v\n", answerMap)
-
 	//Assume userInput is 1, x, X or 2
-	// fmt.Println("Userinput before toUpper:|" + userInput + "|")
 	userAnswer := answerMap[strings.ToUpper(userInput)]
-	// fmt.Println("converted userinput to Uppercase" + strings.ToUpper(userInput))
-	// fmt.Println("usrAnswer from map is: " + userAnswer)
-	// fmt.Println(answerMap)
-	// fmt.Println("right answer from map: " + question.RightAnswer)
-	// fmt.Printf("wrong answers from map: %v \n", question.WrongAnswers)
 
 	if userAnswer == question.RightAnswer {
 		return true, nil
 	}
 
 	for _, value := range question.WrongAnswers {
-		fmt.Printf("Compare Useranswer %s with wront answer %s \n", userAnswer, value)
 		if userAnswer == value {
 			return false, nil
 		}
