@@ -83,8 +83,11 @@ func TestFormatQuestion(t *testing.T) {
 
 func TestGetAnswerMap(t *testing.T) {
 	var randomizeAnswers bool = false
+	var originalQuestion Question
+	copy(originalQuestion, testQuestion)
 	actual := quiz.GetAnswerMap(testQuestion, randomizeAnswers)
 	assert.Equal(t, testAnswerMap, actual)
+	assert.Equal(t, testQuestion, originalQuestion)
 }
 
 func TestWrongAnswer(t *testing.T) {
@@ -122,9 +125,3 @@ func TestFormatResult(t *testing.T) {
 
 	assert.Equal(t, expected, formattedResult)
 }
-
-// func TestPlayQuiz(t *testing.T) {
-// 	questions := quiz.readQuestionsFromJSON("questions.json")
-// 	//formattedQuestion = quiz.formatQuestion(questions[0])
-// 	quiz.verify(questions[0], "54")
-// }

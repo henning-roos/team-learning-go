@@ -64,7 +64,8 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 
 func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string]string {
 	var answerOptions = make([]string, 2)
-	copy(answerOptions, question.WrongAnswers)
+	// copy(answerOptions, question.WrongAnswers)
+	answerOptions = question.WrongAnswers
 	answerOptions = append(answerOptions, question.RightAnswer)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
 
