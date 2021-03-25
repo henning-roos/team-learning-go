@@ -63,9 +63,9 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 }
 
 func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string]string {
-	var answerOptions = make([]string, 2)
+	// var answerOptions = make([]string, 2)
 	// copy(answerOptions, question.WrongAnswers)
-	answerOptions = question.WrongAnswers
+	answerOptions := question.WrongAnswers
 	answerOptions = append(answerOptions, question.RightAnswer)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
 
@@ -105,7 +105,7 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 
 func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []string {
 
-	var seed int64 = 0 // Default to 0 for deterministic testing
+	var seed int64 = 12 // Default to 0 for deterministic testing
 
 	if randomizeSeed {
 		// See https://yourbasic.org/golang/shuffle-slice-array/
