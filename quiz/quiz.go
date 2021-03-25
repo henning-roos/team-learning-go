@@ -105,15 +105,16 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 
 func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []string {
 
-	var seed int64 = 12 // Default to 0 for deterministic testing
+	var seed int64 = 2 // Default to 0 for deterministic testing
 
 	if randomizeSeed {
 		// See https://yourbasic.org/golang/shuffle-slice-array/
 		seed = time.Now().UnixNano()
 	}
 
+	shuffeledAnswers := answers
 	rand.Seed(seed)
-	rand.Shuffle(len(answers), func(i, j int) { answers[i], answers[j] = answers[j], answers[i] })
+	rand.Shuffle(len(shuffeledAnswers), func(i, j int) { shuffeledAnswers[i], shuffeledAnswers[j] = shuffeledAnswers[j], shuffeledAnswers[i] })
 
-	return answers
+	return shuffeledAnswers
 }
