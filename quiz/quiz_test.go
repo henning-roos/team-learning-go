@@ -83,11 +83,15 @@ func TestFormatQuestion(t *testing.T) {
 
 func TestGetAnswerMap(t *testing.T) {
 	var randomizeAnswers bool = false
-	var originalQuestion Question
-	copy(originalQuestion, testQuestion)
+	var copyOfTestQuestion Question
+
+	copyOfTestQuestion = testQuestion
+	copyOfTestQuestion.WrongAnswers = make([]string, len(testQuestion.WrongAnswers))
+	copy(copyOfTestQuestion.WrongAnswers, testQuestion.WrongAnswers)
+
 	actual := quiz.GetAnswerMap(testQuestion, randomizeAnswers)
 	assert.Equal(t, testAnswerMap, actual)
-	assert.Equal(t, testQuestion, originalQuestion)
+	assert.Equal(t, testQuestion, copyOfTestQuestion)
 }
 
 func TestWrongAnswer(t *testing.T) {
