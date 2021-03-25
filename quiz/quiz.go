@@ -105,7 +105,7 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 
 func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []string {
 
-	var seed int64 = 12 // Default to 0 for deterministic testing
+	var seed int64 = 0 // Default to 0 for deterministic testing
 
 	if randomizeSeed {
 		// See https://yourbasic.org/golang/shuffle-slice-array/

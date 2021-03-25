@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -92,6 +93,8 @@ func TestGetAnswerMap(t *testing.T) {
 	actual := quiz.GetAnswerMap(testQuestion, randomizeAnswers)
 	assert.Equal(t, testAnswerMap, actual)
 	assert.Equal(t, testQuestion, copyOfTestQuestion)
+	fmt.Println(testQuestion)
+	fmt.Println(copyOfTestQuestion)
 }
 
 func TestWrongAnswer(t *testing.T) {
