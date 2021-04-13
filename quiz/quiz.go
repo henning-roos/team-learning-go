@@ -12,9 +12,9 @@ import (
 )
 
 type Question struct {
-	Question     string   `json:"question"`
-	RightAnswer  string   `json:"rightAnswer"`
-	WrongAnswers []string `json:"wrongAnswers"`
+	Question     string    `json:"question"`
+	RightAnswer  string    `json:"rightAnswer"`
+	WrongAnswers [2]string `json:"wrongAnswers"`
 }
 
 type QuizInterface interface {
@@ -65,9 +65,15 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string]string {
 	// var answerOptions = make([]string, 2)
 	// copy(answerOptions, question.WrongAnswers)
-	answerOptions := question.WrongAnswers
+	fmt.Println(question)
+	var answerOptions []string
+	answerOptions = append(answerOptions, question.WrongAnswers[0])
+	answerOptions = append(answerOptions, question.WrongAnswers[1])
 	answerOptions = append(answerOptions, question.RightAnswer)
+	fmt.Println(answerOptions)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
+	fmt.Println(answerOptions)
+	fmt.Println(question)
 
 	return map[string]string{
 		"1": randomizedAnswers[0],
@@ -105,7 +111,7 @@ func (quiz *Quiz) FormatResult(numberCorrectAnswers int, numberQuestions int) st
 
 func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []string {
 
-	var seed int64 = 2 // Default to 0 for deterministic testing
+	var seed int64 = 0 // Default to 0 for deterministic testing
 
 	if randomizeSeed {
 		// See https://yourbasic.org/golang/shuffle-slice-array/
