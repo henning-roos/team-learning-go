@@ -13,8 +13,8 @@ import (
 
 type Question struct {
 	Question     string    `json:"question"`
-	RightAnswer  string    `json:"rightAnswer"`
-	WrongAnswers [3]string `json:"wrongAnswers"`
+	RightAnswer  string    `json:"correct_answer"`
+	WrongAnswers [3]string `json:"incorrect_answers"`
 }
 
 type QuizInterface interface {

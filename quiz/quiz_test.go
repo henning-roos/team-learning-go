@@ -38,6 +38,8 @@ var quiz = Quiz{}
 func TestReadQuestionsFromJSON(t *testing.T) {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
 	assert.Equal(t, "What is blue and yellow together? (using watercolors)", questions[0].Question)
+	assert.Equal(t, "Green", questions[0].RightAnswer)
+	assert.Equal(t, "Red", questions[0].WrongAnswers[0])
 	assert.Equal(t, 3, len(questions))
 }
 
