@@ -4,7 +4,8 @@
         "rightAnswer": "Green",
         "wrongAnswers": [
             "Red",
-            "Black"
+            "Black",
+            "Pink"
         ]
     },
     {
@@ -12,7 +13,8 @@
         "rightAnswer": "Car",
         "wrongAnswers": [
             "Bus",
-            "Wagon"
+            "Wagon",
+            "Bicycle"
         ]
     },
     {
@@ -20,7 +22,8 @@
         "rightAnswer": "2",
         "wrongAnswers": [
             "1",
-            "53"
+            "53",
+            "42"
         ]
     }
 ]

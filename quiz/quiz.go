@@ -14,7 +14,7 @@ import (
 type Question struct {
 	Question     string    `json:"question"`
 	RightAnswer  string    `json:"rightAnswer"`
-	WrongAnswers [2]string `json:"wrongAnswers"`
+	WrongAnswers [3]string `json:"wrongAnswers"`
 }
 
 type QuizInterface interface {
@@ -53,11 +53,12 @@ func (quiz *Quiz) GetUserInput(stdin io.Reader) (string, error) {
 
 func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string) string {
 	questionAndAnswers := fmt.Sprintf(
-		"Question: %s\n1: %s\nX: %s\n2: %s\nAnswer: ",
+		"Question: %s\n1: %s\n2: %s\n3: %s\n4: %s\nAnswer: ",
 		question.Question,
 		answerMap["1"],
-		answerMap["X"],
-		answerMap["2"])
+		answerMap["2"],
+		answerMap["3"],
+		answerMap["4"])
 
 	return questionAndAnswers
 }
@@ -66,13 +67,15 @@ func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string
 	var answerOptions []string
 	answerOptions = append(answerOptions, question.WrongAnswers[0])
 	answerOptions = append(answerOptions, question.WrongAnswers[1])
+	answerOptions = append(answerOptions, question.WrongAnswers[2])
 	answerOptions = append(answerOptions, question.RightAnswer)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
 
 	return map[string]string{
 		"1": randomizedAnswers[0],
-		"X": randomizedAnswers[1],
-		"2": randomizedAnswers[2],
+		"2": randomizedAnswers[1],
+		"3": randomizedAnswers[2],
+		"4": randomizedAnswers[3],
 	}
 }
 

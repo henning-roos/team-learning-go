@@ -10,25 +10,27 @@ import (
 var testQuestion = Question{
 	Question:     "Which language is this written in?",
 	RightAnswer:  "Go",
-	WrongAnswers: [2]string{"Python", "Java"},
+	WrongAnswers: [3]string{"Python", "Java", "Ruby"},
 }
 
 var testQuestion2 = Question{
 	Question:     "What is blue and yellow together? (using watercolors)",
 	RightAnswer:  "Green",
-	WrongAnswers: [2]string{"Red", "Black"},
+	WrongAnswers: [3]string{"Red", "Black", "Pink"},
 }
 
 var testAnswerMap = map[string]string{
-	"1": "Java",
-	"X": "Python",
-	"2": "Go",
+	"1": "Ruby",
+	"2": "Java",
+	"3": "Python",
+	"4": "Go",
 }
 
 var testAnswerMap2 = map[string]string{
-	"1": "Black",
-	"X": "Red",
-	"2": "Green",
+	"1": "Pink",
+	"2": "Black",
+	"3": "Red",
+	"4": "Green",
 }
 
 var quiz = Quiz{}
@@ -74,9 +76,10 @@ func TestRandomizeAnswers(t *testing.T) {
 func TestFormatQuestion(t *testing.T) {
 	actualQandA := quiz.FormatQuestion(testQuestion, testAnswerMap)
 	expectedQandA := "Question: Which language is this written in?\n" +
-		"1: Java\n" +
-		"X: Python\n" +
-		"2: Go\n" +
+		"1: Ruby\n" +
+		"2: Java\n" +
+		"3: Python\n" +
+		"4: Go\n" +
 		"Answer: "
 	assert.Equal(t, expectedQandA, actualQandA)
 }
