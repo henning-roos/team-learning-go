@@ -46,12 +46,18 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 
 	// req, err := http.NewRequest(http.MethodGet, url, nil)
 	// res, err := http.DefaultClient.Do(req)
-	resp, _ := http.Get("http://example.com/")
+	resp, _ := http.Get(url)
 	var data []Question
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(body)
 
 	// data = json.Unmarshal([]byte(resp.Body), &data)
-	data = json.Unmarshal(io.ReadAll(resp.Body), &data)
+	err := json.Unmarshal(body, &data)
+	if err != nil {
+		fmt.Println(err)
+	}
 
+	fmt.Println(data)
 	return data
 }
 
