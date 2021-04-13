@@ -1,5 +1,5 @@
 # team-learning-go
-Team learning activity where the goal is to get familiar with golang
+Team learning activity where the goal is to get familiar with Golang
 
 TODO:
 - Use Open Trivia to get questions and answers (https://opentdb.com/api_config.php)
