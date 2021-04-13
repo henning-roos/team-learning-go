@@ -98,15 +98,8 @@ func TestWrongAnswer(t *testing.T) {
 	assert.Equal(t, nil, err)
 }
 
-func TestCaseSensitivityAnswer(t *testing.T) {
-	userInput := "x"
-	actual, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
-	assert.False(t, actual)
-	assert.Equal(t, nil, err)
-}
-
 func TestCorrectAnswer(t *testing.T) {
-	userInput := "2"
+	userInput := "4"
 	actual, err := quiz.Verify(testQuestion, testAnswerMap, userInput)
 	assert.True(t, actual)
 	assert.Equal(t, nil, err)

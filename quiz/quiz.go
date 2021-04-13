@@ -82,8 +82,8 @@ func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string
 // This function verifies that the answer is correct
 func (quiz *Quiz) Verify(question Question, answerMap map[string]string, userInput string) (bool, error) {
 
-	//Assume userInput is 1, x, X or 2
-	userAnswer := answerMap[strings.ToUpper(userInput)]
+	//Assume userInput is 1, 2, 3 or 4
+	userAnswer := answerMap[userInput]
 
 	if userAnswer == question.RightAnswer {
 		return true, nil

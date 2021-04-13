@@ -1,8 +1,8 @@
 [
     {
         "question": "What is blue and yellow together? (using watercolors)",
-        "rightAnswer": "Green",
-        "wrongAnswers": [
+        "correct_answer": "Green",
+        "incorrect_answers": [
             "Red",
             "Black",
             "Pink"
@@ -10,8 +10,8 @@
     },
     {
         "question": "What has four wheels?",
-        "rightAnswer": "Car",
-        "wrongAnswers": [
+        "correct_answer": "Car",
+        "incorrect_answers": [
             "Bus",
             "Wagon",
             "Bicycle"
@@ -19,8 +19,8 @@
     },
     {
         "question": "What is 1+1?",
-        "rightAnswer": "2",
-        "wrongAnswers": [
+        "correct_answer": "2",
+        "incorrect_answers": [
             "1",
             "53",
             "42"
