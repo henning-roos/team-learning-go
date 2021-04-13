@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"math/rand"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -43,9 +44,13 @@ func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 	// GET OpenTrivia questions
 
+	// req, err := http.NewRequest(http.MethodGet, url, nil)
+	// res, err := http.DefaultClient.Do(req)
+	resp, _ := http.Get("http://example.com/")
 	var data []Question
 
-	//_ = json.Unmarshal([]byte(file), &data)
+	// data = json.Unmarshal([]byte(resp.Body), &data)
+	data = json.Unmarshal(io.ReadAll(resp.Body), &data)
 
 	return data
 }
