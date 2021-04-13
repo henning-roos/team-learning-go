@@ -45,7 +45,7 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 
 	var data []Question
 
-	_ = json.Unmarshal([]byte(file), &data)
+	//_ = json.Unmarshal([]byte(file), &data)
 
 	return data
 }

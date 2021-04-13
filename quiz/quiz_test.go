@@ -47,12 +47,18 @@ func TestReadQuestionsFromJSON(t *testing.T) {
 
 func TestReadQuestionsFromURL(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		res.WriteHeader(scenario.expectedRespStatus)
+		//res.WriteHeader(scenario.expectedRespStatus)
+		jsonData := []byte(`{"response_code":0,"results":[{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"In &quot;Call Of Duty: Zombies&quot;, which map features the &quot;Fly Trap&quot; easter egg?","correct_answer":"Der Riese","incorrect_answers":["Tranzit","Call Of The Dead","Shi No Numa"]}]}`)
 		res.Write([]byte("body"))
 	}))
 	defer func() { testServer.Close() }()
 
 	questions := quiz.ReadQuestionsFromURL(testServer.URL)
+
+	assert.Equal(t, "What is blue and yellow together? (using watercolors)", questions[0].Question)
+	assert.Equal(t, "Green", questions[0].RightAnswer)
+	assert.Equal(t, "Red", questions[0].WrongAnswers[0])
+	assert.Equal(t, 3, len(questions))
 }
 
 func TestGetUserInput(t *testing.T) {
