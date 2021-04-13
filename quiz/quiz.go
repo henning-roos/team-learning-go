@@ -18,6 +18,11 @@ type Question struct {
 	WrongAnswers [3]string `json:"incorrect_answers"`
 }
 
+type OpenTriviaResponse struct {
+	ResponseCode int        `json:"response_code"`
+	Results      []Question `json:"results"`
+}
+
 type QuizInterface interface {
 	ReadQuestionsFromJSON(jsonFile string) []Question
 	GetAnswerMap(question Question, randomizeAnswers bool) map[string]string
@@ -49,13 +54,19 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 	resp, _ := http.Get(url)
 	var data []Question
 	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(body)
+
+	var openTriviaResponse OpenTriviaResponse
+
+	err := json.Unmarshal(body, &openTriviaResponse)
+	if err != nil {
+		panic(err)
+	}
 
 	// data = json.Unmarshal([]byte(resp.Body), &data)
-	err := json.Unmarshal(body, &data)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// err = json.Unmarshal(body, &data)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
 	fmt.Println(data)
 	return data
