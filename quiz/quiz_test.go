@@ -35,7 +35,7 @@ var quiz = Quiz{}
 
 func TestReadQuestionsFromJSON(t *testing.T) {
 	questions := quiz.ReadQuestionsFromJSON("questions.json")
-	assert.Equal(t, "What is 1+1?", questions[0].Question)
+	assert.Equal(t, "What is blue and yellow together? (using watercolors)", questions[0].Question)
 	assert.Equal(t, 3, len(questions))
 }
 
@@ -83,16 +83,9 @@ func TestFormatQuestion(t *testing.T) {
 
 func TestGetAnswerMap(t *testing.T) {
 	var randomizeAnswers bool = false
-	// var copyOfTestQuestion Question
-	question := quiz.ReadQuestionsFromJSON("questions.json")[0]
-	// question := testQuestion
-	// copyOfTestQuestion = question
-	// copyOfTestQuestion.WrongAnswers = make([2]string, len(question.WrongAnswers))
-	// copy(copyOfTestQuestion.WrongAnswers, question.WrongAnswers)
-
-	quiz.GetAnswerMap(question, randomizeAnswers)
-	//assert.Equal(t, testAnswerMap, actual)
-	// assert.Equal(t, question, copyOfTestQuestion)
+	question := testQuestion
+	actual := quiz.GetAnswerMap(question, randomizeAnswers)
+	assert.Equal(t, testAnswerMap, actual)
 }
 
 func TestWrongAnswer(t *testing.T) {

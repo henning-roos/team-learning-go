@@ -63,24 +63,17 @@ func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string)
 }
 
 func (quiz *Quiz) GetAnswerMap(question Question, randomizeSeed bool) map[string]string {
-	// var answerOptions = make([]string, 2)
-	// copy(answerOptions, question.WrongAnswers)
-	fmt.Println(question)
 	var answerOptions []string
 	answerOptions = append(answerOptions, question.WrongAnswers[0])
 	answerOptions = append(answerOptions, question.WrongAnswers[1])
 	answerOptions = append(answerOptions, question.RightAnswer)
-	fmt.Println(answerOptions)
 	randomizedAnswers := quiz.randomizeAnswers(answerOptions, randomizeSeed)
-	fmt.Println(answerOptions)
-	fmt.Println(question)
 
 	return map[string]string{
 		"1": randomizedAnswers[0],
 		"X": randomizedAnswers[1],
 		"2": randomizedAnswers[2],
 	}
-
 }
 
 // This function verifies that the answer is correct
