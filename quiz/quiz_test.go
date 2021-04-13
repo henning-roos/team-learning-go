@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -41,6 +43,16 @@ func TestReadQuestionsFromJSON(t *testing.T) {
 	assert.Equal(t, "Green", questions[0].RightAnswer)
 	assert.Equal(t, "Red", questions[0].WrongAnswers[0])
 	assert.Equal(t, 3, len(questions))
+}
+
+func TestReadQuestionsFromURL(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		res.WriteHeader(scenario.expectedRespStatus)
+		res.Write([]byte("body"))
+	}))
+	defer func() { testServer.Close() }()
+
+	questions := quiz.ReadQuestionsFromURL(testServer.URL)
 }
 
 func TestGetUserInput(t *testing.T) {

@@ -40,6 +40,16 @@ func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 	return data
 }
 
+func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
+	// GET OpenTrivia questions
+
+	var data []Question
+
+	_ = json.Unmarshal([]byte(file), &data)
+
+	return data
+}
+
 func (quiz *Quiz) GetUserInput(stdin io.Reader) (string, error) {
 	reader := bufio.NewReader(stdin)
 	text, err := reader.ReadString('\n')
