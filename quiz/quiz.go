@@ -49,10 +49,7 @@ func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 	// GET OpenTrivia questions
 
-	// req, err := http.NewRequest(http.MethodGet, url, nil)
-	// res, err := http.DefaultClient.Do(req)
 	resp, _ := http.Get(url)
-	var data []Question
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	var openTriviaResponse OpenTriviaResponse
@@ -62,14 +59,7 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 		panic(err)
 	}
 
-	// data = json.Unmarshal([]byte(resp.Body), &data)
-	// err = json.Unmarshal(body, &data)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	fmt.Println(data)
-	return data
+	return openTriviaResponse.Results
 }
 
 func (quiz *Quiz) GetUserInput(stdin io.Reader) (string, error) {
