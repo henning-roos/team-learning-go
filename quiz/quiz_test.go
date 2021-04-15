@@ -60,6 +60,12 @@ func TestReadQuestionsFromURL(t *testing.T) {
 	assert.Equal(t, 1, len(questions))
 }
 
+func TestReadQuestionsFromURLWithPanicFailure(t *testing.T) {
+	url := "google.se"
+
+	assert.Panics(t, func() { quiz.ReadQuestionsFromURL(url) }, "Did not panic!")
+}
+
 func TestGetUserInput(t *testing.T) {
 	var stdin bytes.Buffer
 	var expected string = "2"

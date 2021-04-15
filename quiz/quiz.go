@@ -51,16 +51,26 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 	// GET OpenTrivia questions
 
 	resp, err := http.Get(url)
+	fmt.Println("ERROR:" + err.Error())
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("22")
+
+	if resp.StatusCode != 200 {
+		fmt.Println("33")
+		panic("Http request not OK: " + resp.Status)
+	}
+
+	fmt.Println("44")
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	var openTriviaResponse OpenTriviaResponse
 
-	err := json.Unmarshal(body, &openTriviaResponse)
+	err = json.Unmarshal(body, &openTriviaResponse)
 	if err != nil {
+		fmt.Println("ERROR2:" + err.Error())
 		panic(err)
 	}
 
