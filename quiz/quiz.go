@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"html"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -59,6 +60,18 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 		panic(err)
 	}
 
+	for _, question := range openTriviaResponse.Results {
+		question.Question = html.UnescapeString(question.Question)
+		fmt.Println(question.Question)
+		fmt.Println(html.UnescapeString(question.Question))
+		question.RightAnswer = html.UnescapeString(question.RightAnswer)
+		question.WrongAnswers[0] = html.UnescapeString(question.WrongAnswers[0])
+		question.WrongAnswers[1] = html.UnescapeString(question.WrongAnswers[1])
+		question.WrongAnswers[2] = html.UnescapeString(question.WrongAnswers[2])
+
+	}
+
+	fmt.Println(openTriviaResponse.Results)
 	return openTriviaResponse.Results
 }
 
