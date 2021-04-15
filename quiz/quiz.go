@@ -50,7 +50,11 @@ func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 	// GET OpenTrivia questions
 
-	resp, _ := http.Get(url)
+	resp, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
+
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	var openTriviaResponse OpenTriviaResponse
@@ -60,18 +64,15 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question {
 		panic(err)
 	}
 
-	for _, question := range openTriviaResponse.Results {
+	for i, question := range openTriviaResponse.Results {
 		question.Question = html.UnescapeString(question.Question)
-		fmt.Println(question.Question)
-		fmt.Println(html.UnescapeString(question.Question))
 		question.RightAnswer = html.UnescapeString(question.RightAnswer)
 		question.WrongAnswers[0] = html.UnescapeString(question.WrongAnswers[0])
 		question.WrongAnswers[1] = html.UnescapeString(question.WrongAnswers[1])
 		question.WrongAnswers[2] = html.UnescapeString(question.WrongAnswers[2])
-
+		openTriviaResponse.Results[i] = question
 	}
 
-	fmt.Println(openTriviaResponse.Results)
 	return openTriviaResponse.Results
 }
 
