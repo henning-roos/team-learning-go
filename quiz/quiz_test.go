@@ -63,7 +63,9 @@ func TestReadQuestionsFromURL(t *testing.T) {
 func TestReadQuestionsFromURLWithPanicFailure(t *testing.T) {
 	url := "google.se"
 
-	assert.Panics(t, func() { quiz.ReadQuestionsFromURL(url) }, "Did not panic!")
+	_, err := quiz.ReadQuestionsFromURL(url)
+	assert.Error(t, err)
+
 }
 
 func TestGetUserInput(t *testing.T) {
