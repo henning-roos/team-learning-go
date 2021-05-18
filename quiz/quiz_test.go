@@ -46,10 +46,12 @@ func TestReadQuestionsFromJSON(t *testing.T) {
 }
 
 func TestReadQuestionsFromURL(t *testing.T) {
-	testServer := httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+	okResponse := func(res http.ResponseWriter, req *http.Request) {
 		jsonData := `{"response_code":0,"results":[{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"In &quot;Call Of Duty: Zombies&quot;, which map features the &quot;Fly Trap&quot; easter egg?","correct_answer":"Der Riese","incorrect_answers":["Tranzit","Call Of The Dead","Shi No Numa"]}]}`
 		res.Write([]byte(jsonData))
-	}))
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
 	defer func() { testServer.Close() }()
 
 	questions, _ := quiz.ReadQuestionsFromURL(testServer.URL)
@@ -65,7 +67,18 @@ func TestReadQuestionsFromURLWithoutProtocol(t *testing.T) {
 
 	_, err := quiz.ReadQuestionsFromURL(url)
 	assert.Error(t, err)
+}
 
+func TestReadQuestionsFromURLWithBadResponse(t *testing.T) {
+	badResponse := func(res http.ResponseWriter, req *http.Request) {
+		res.WriteHeader(503)
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(badResponse))
+	defer func() { testServer.Close() }()
+
+	_, err := quiz.ReadQuestionsFromURL(testServer.URL)
+	assert.Error(t, err)
 }
 
 func TestGetUserInput(t *testing.T) {

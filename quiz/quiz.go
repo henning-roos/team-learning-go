@@ -52,17 +52,16 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) ([]Question, error) {
 
 	resp, err := http.Get(url)
 	var questions []Question
-	
+
 	if err != nil {
-		fmt.Printf("ERROR: %s", err.Error())
+		fmt.Printf("ERROR: %s\n", err.Error())
 		return questions, err
 	}
 
 	if resp.StatusCode != 200 {
-		fmt.Printf("Invalid response code %s", resp.Status)
+		fmt.Printf("Invalid response code %s\n", resp.Status)
 		return questions, fmt.Errorf("Http request not OK: %s", resp.Status)
 	}
-
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
@@ -70,7 +69,7 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) ([]Question, error) {
 
 	err = json.Unmarshal(body, &openTriviaResponse)
 	if err != nil {
-		fmt.Println("ERROR2:" + err.Error())
+		fmt.Printf("ERROR: %s\n", err.Error())
 		return questions, err
 	}
 
