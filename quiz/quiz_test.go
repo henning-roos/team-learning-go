@@ -37,8 +37,11 @@ var testAnswerMap2 = map[string]string{
 
 var quiz = Quiz{}
 
+func TestGetQuestions(t *testing.T) {
+}
+
 func TestReadQuestionsFromJSON(t *testing.T) {
-	questions := quiz.ReadQuestionsFromJSON("questions.json")
+	questions := quiz.readQuestionsFromJSON("questions.json")
 	assert.Equal(t, "What is blue and yellow together? (using watercolors)", questions[0].Question)
 	assert.Equal(t, "Green", questions[0].RightAnswer)
 	assert.Equal(t, "Red", questions[0].WrongAnswers[0])
@@ -54,7 +57,7 @@ func TestReadQuestionsFromURL(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
 	defer func() { testServer.Close() }()
 
-	questions, _ := quiz.ReadQuestionsFromURL(testServer.URL)
+	questions, _ := quiz.readQuestionsFromURL(testServer.URL)
 	questionText := `In "Call Of Duty: Zombies", which map features the "Fly Trap" easter egg?`
 	assert.Equal(t, questionText, questions[0].Question)
 	assert.Equal(t, "Der Riese", questions[0].RightAnswer)
@@ -65,7 +68,7 @@ func TestReadQuestionsFromURL(t *testing.T) {
 func TestReadQuestionsFromURLWithoutProtocol(t *testing.T) {
 	url := "google.se"
 
-	_, err := quiz.ReadQuestionsFromURL(url)
+	_, err := quiz.readQuestionsFromURL(url)
 	assert.Error(t, err)
 }
 
@@ -77,7 +80,7 @@ func TestReadQuestionsFromURLWithBadResponse(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(badResponse))
 	defer func() { testServer.Close() }()
 
-	_, err := quiz.ReadQuestionsFromURL(testServer.URL)
+	_, err := quiz.readQuestionsFromURL(testServer.URL)
 	assert.Error(t, err)
 }
 
@@ -90,7 +93,7 @@ func TestReadQuestionsFromURLWithNoJSONResponse(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
 	defer func() { testServer.Close() }()
 
-	_, err := quiz.ReadQuestionsFromURL(testServer.URL)
+	_, err := quiz.readQuestionsFromURL(testServer.URL)
 	assert.Error(t, err)
 }
 
@@ -103,7 +106,7 @@ func TestReadQuestionsFromURLWithBadJSONResponse(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
 	defer func() { testServer.Close() }()
 
-	_, err := quiz.ReadQuestionsFromURL(testServer.URL)
+	_, err := quiz.readQuestionsFromURL(testServer.URL)
 	assert.Error(t, err)
 }
 

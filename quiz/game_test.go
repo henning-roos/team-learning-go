@@ -13,8 +13,8 @@ type QuizMock struct {
 	mock.Mock
 }
 
-func (quizMock *QuizMock) ReadQuestionsFromJSON(jsonFile string) []Question {
-	args := quizMock.Called(jsonFile)
+func (quizMock *QuizMock) GetQuestions() []Question {
+	args := quizMock.Called()
 	return args.Get(0).([]Question)
 }
 
@@ -45,7 +45,7 @@ func (quizMock *QuizMock) FormatResult(numberCorrectAnswers int, numberQuestions
 
 func TestRun_AnswerCorrect(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
+	quizMock.On("GetQuestions").Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
@@ -57,8 +57,7 @@ func TestRun_AnswerCorrect(t *testing.T) {
 
 	run(quizMock, &stdin)
 
-	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
-	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)
+	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
 	quizMock.AssertCalled(t, "GetUserInput", &stdin)
@@ -73,7 +72,7 @@ func TestRun_AnswerCorrect(t *testing.T) {
 
 func TestRun_AnswerWrong(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
+	quizMock.On("GetQuestions").Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
@@ -85,8 +84,7 @@ func TestRun_AnswerWrong(t *testing.T) {
 
 	run(quizMock, &stdin)
 
-	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
-	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)
+	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
 	quizMock.AssertCalled(t, "GetUserInput", &stdin)
@@ -101,7 +99,7 @@ func TestRun_AnswerWrong(t *testing.T) {
 
 func TestRun_AnswerInvalid(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion})
+	quizMock.On("GetQuestions").Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
 	quizMock.On("GetUserInput", mock.Anything).Return("bad input", nil).Once()
@@ -115,8 +113,7 @@ func TestRun_AnswerInvalid(t *testing.T) {
 
 	run(quizMock, &stdin)
 
-	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
-	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)
+	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
 	quizMock.AssertCalled(t, "GetUserInput", &stdin)
@@ -132,7 +129,7 @@ func TestRun_AnswerInvalid(t *testing.T) {
 
 func TestRun_MultipleQuestions(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadQuestionsFromJSON", mock.Anything).Return([]Question{testQuestion, testQuestion2})
+	quizMock.On("GetQuestions").Return([]Question{testQuestion, testQuestion2})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap).Once()
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil).Once()
@@ -147,8 +144,7 @@ func TestRun_MultipleQuestions(t *testing.T) {
 
 	run(quizMock, &stdin)
 
-	quizMock.AssertCalled(t, "ReadQuestionsFromJSON", "questions.json")
-	quizMock.AssertNumberOfCalls(t, "ReadQuestionsFromJSON", 1)
+	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion2, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 2)

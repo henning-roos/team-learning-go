@@ -25,7 +25,7 @@ type OpenTriviaResponse struct {
 }
 
 type QuizInterface interface {
-	ReadQuestionsFromJSON(jsonFile string) []Question
+	GetQuestions() []Question
 	GetAnswerMap(question Question, randomizeAnswers bool) map[string]string
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
@@ -37,11 +37,14 @@ type Quiz struct {
 	questions []Question
 }
 
-func (quiz *Quiz) GetQuestions(jsonFile string) []Question {
-
+func (quiz *Quiz) GetQuestions() []Question {
+	// question, err :=readQuestionFromURL(http:opentrivia)
+	// if err then
+	// readQueestionFromJSON("question.json")
+	return nil
 }
 
-func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
+func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) []Question {
 	file, _ := ioutil.ReadFile(jsonFile)
 
 	var data []Question
@@ -51,7 +54,7 @@ func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 	return data
 }
 
-func (quiz *Quiz) ReadQuestionsFromURL(url string) ([]Question, error) {
+func (quiz *Quiz) readQuestionsFromURL(url string) ([]Question, error) {
 	// GET OpenTrivia questions
 
 	resp, err := http.Get(url)

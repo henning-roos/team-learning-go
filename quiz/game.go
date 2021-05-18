@@ -15,7 +15,7 @@ func main() {
 const randomizeAnswers bool = true
 
 func run(quiz QuizInterface, stdin io.Reader) error {
-	questions := quiz.ReadQuestionsFromJSON("questions.json")
+	questions := quiz.GetQuestions()
 	correctAnswers := 0
 
 	for _, question := range questions {
