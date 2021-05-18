@@ -38,6 +38,21 @@ var testAnswerMap2 = map[string]string{
 var quiz = Quiz{}
 
 func TestGetQuestions(t *testing.T) {
+	okResponse := func(res http.ResponseWriter, req *http.Request) {
+		jsonData := `{"response_code":0,"results":[{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"In &quot;Call Of Duty: Zombies&quot;, which map features the &quot;Fly Trap&quot; easter egg?","correct_answer":"Der Riese","incorrect_answers":["Tranzit","Call Of The Dead","Shi No Numa"]}]}`
+		res.Write([]byte(jsonData))
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
+	defer func() { testServer.Close() }()
+
+	var testConfiguration = Configuration{
+		QuestionFile: "questions.json",
+		TriviaURL:    testServer.URL,
+	}
+
+	questions := quiz.GetQuestions(testConfiguration)
+	assert.Equal(t, 1, len(questions))
 }
 
 func TestReadQuestionsFromJSON(t *testing.T) {

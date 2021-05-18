@@ -13,6 +13,11 @@ import (
 	"time"
 )
 
+type Configuration struct {
+	QuestionFile string
+	TriviaURL    string
+}
+
 type Question struct {
 	Question     string    `json:"question"`
 	RightAnswer  string    `json:"correct_answer"`
@@ -25,7 +30,7 @@ type OpenTriviaResponse struct {
 }
 
 type QuizInterface interface {
-	GetQuestions() []Question
+	GetQuestions(configuration Configuration) []Question
 	GetAnswerMap(question Question, randomizeAnswers bool) map[string]string
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
@@ -37,7 +42,7 @@ type Quiz struct {
 	questions []Question
 }
 
-func (quiz *Quiz) GetQuestions() []Question {
+func (quiz *Quiz) GetQuestions(configuration Configuration) []Question {
 	// question, err :=readQuestionFromURL(http:opentrivia)
 	// if err then
 	// readQueestionFromJSON("question.json")

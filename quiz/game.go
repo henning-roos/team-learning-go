@@ -14,8 +14,13 @@ func main() {
 
 const randomizeAnswers bool = true
 
+var configuration = Configuration{
+	QuestionFile: "questions.json",
+	TriviaURL:    "https://opentdb.com/api.php?amount=10&type=multiple",
+}
+
 func run(quiz QuizInterface, stdin io.Reader) error {
-	questions := quiz.GetQuestions()
+	questions := quiz.GetQuestions(configuration)
 	correctAnswers := 0
 
 	for _, question := range questions {
