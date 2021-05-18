@@ -47,20 +47,21 @@ func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 	return data
 }
 
-func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question, error {
+func (quiz *Quiz) ReadQuestionsFromURL(url string) ([]Question, error) {
 	// GET OpenTrivia questions
 
 	resp, err := http.Get(url)
+	var questions []Question
 	fmt.Println("ERROR:" + err.Error())
 	if err != nil {
 		panic(err)
-		return [], err
+		return questions, err
 	}
 	fmt.Println("22")
 
 	if resp.StatusCode != 200 {
 		fmt.Println("33")
-		return [], "Http request not OK: " + resp.Status
+		return questions, fmt.Errorf("Http request not OK: %s", resp.Status)
 	}
 
 	fmt.Println("44")
@@ -72,7 +73,7 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) []Question, error {
 	err = json.Unmarshal(body, &openTriviaResponse)
 	if err != nil {
 		fmt.Println("ERROR2:" + err.Error())
-		return [], err
+		return questions, err
 	}
 
 	for i, question := range openTriviaResponse.Results {

@@ -52,7 +52,7 @@ func TestReadQuestionsFromURL(t *testing.T) {
 	}))
 	defer func() { testServer.Close() }()
 
-	questions := quiz.ReadQuestionsFromURL(testServer.URL)
+	questions, _ := quiz.ReadQuestionsFromURL(testServer.URL)
 	questionText := `In "Call Of Duty: Zombies", which map features the "Fly Trap" easter egg?`
 	assert.Equal(t, questionText, questions[0].Question)
 	assert.Equal(t, "Der Riese", questions[0].RightAnswer)
