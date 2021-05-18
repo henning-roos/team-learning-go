@@ -60,7 +60,7 @@ func TestReadQuestionsFromURL(t *testing.T) {
 	assert.Equal(t, 1, len(questions))
 }
 
-func TestReadQuestionsFromURLWithPanicFailure(t *testing.T) {
+func TestReadQuestionsFromURLWithoutProtocol(t *testing.T) {
 	url := "google.se"
 
 	_, err := quiz.ReadQuestionsFromURL(url)
