@@ -81,6 +81,32 @@ func TestReadQuestionsFromURLWithBadResponse(t *testing.T) {
 	assert.Error(t, err)
 }
 
+func TestReadQuestionsFromURLWithNoJSONResponse(t *testing.T) {
+	okResponse := func(res http.ResponseWriter, req *http.Request) {
+		jsonData := `no json here`
+		res.Write([]byte(jsonData))
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
+	defer func() { testServer.Close() }()
+
+	_, err := quiz.ReadQuestionsFromURL(testServer.URL)
+	assert.Error(t, err)
+}
+
+func TestReadQuestionsFromURLWithBadJSONResponse(t *testing.T) {
+	okResponse := func(res http.ResponseWriter, req *http.Request) {
+		jsonData := `{"key": "no question here"}`
+		res.Write([]byte(jsonData))
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
+	defer func() { testServer.Close() }()
+
+	_, err := quiz.ReadQuestionsFromURL(testServer.URL)
+	assert.Error(t, err)
+}
+
 func TestGetUserInput(t *testing.T) {
 	var stdin bytes.Buffer
 	var expected string = "2"

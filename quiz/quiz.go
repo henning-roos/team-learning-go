@@ -37,6 +37,10 @@ type Quiz struct {
 	questions []Question
 }
 
+func (quiz *Quiz) GetQuestions(jsonFile string) []Question {
+
+}
+
 func (quiz *Quiz) ReadQuestionsFromJSON(jsonFile string) []Question {
 	file, _ := ioutil.ReadFile(jsonFile)
 
@@ -59,8 +63,9 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) ([]Question, error) {
 	}
 
 	if resp.StatusCode != 200 {
-		fmt.Printf("Invalid response code %s\n", resp.Status)
-		return questions, fmt.Errorf("Http request not OK: %s", resp.Status)
+		err := fmt.Errorf("Http request not OK: %s", resp.Status)
+		fmt.Printf("ERROR: %s\n", err.Error())
+		return questions, err
 	}
 
 	body, _ := ioutil.ReadAll(resp.Body)
@@ -69,6 +74,12 @@ func (quiz *Quiz) ReadQuestionsFromURL(url string) ([]Question, error) {
 
 	err = json.Unmarshal(body, &openTriviaResponse)
 	if err != nil {
+		fmt.Printf("ERROR: %s\n", err.Error())
+		return questions, err
+	}
+
+	if len(openTriviaResponse.Results) == 0 {
+		err := fmt.Errorf("Unable to resolve response into question(s): %s", body)
 		fmt.Printf("ERROR: %s\n", err.Error())
 		return questions, err
 	}
