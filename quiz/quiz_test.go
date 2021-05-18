@@ -55,6 +55,23 @@ func TestGetQuestions(t *testing.T) {
 	assert.Equal(t, 1, len(questions))
 }
 
+func TestGetQuestionsBadUrl(t *testing.T) {
+	badResponse := func(res http.ResponseWriter, req *http.Request) {
+		res.WriteHeader(503)
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(badResponse))
+	defer func() { testServer.Close() }()
+
+	var testConfiguration = Configuration{
+		QuestionFile: "questions.json",
+		TriviaURL:    testServer.URL,
+	}
+
+	questions := quiz.GetQuestions(testConfiguration)
+	assert.Equal(t, 3, len(questions))
+}
+
 func TestReadQuestionsFromJSON(t *testing.T) {
 	questions := quiz.readQuestionsFromJSON("questions.json")
 	assert.Equal(t, "What is blue and yellow together? (using watercolors)", questions[0].Question)

@@ -43,10 +43,13 @@ type Quiz struct {
 }
 
 func (quiz *Quiz) GetQuestions(configuration Configuration) []Question {
-	// question, err :=readQuestionFromURL(http:opentrivia)
-	// if err then
-	// readQueestionFromJSON("question.json")
-	return nil
+	question, err := quiz.readQuestionsFromURL(configuration.TriviaURL)
+	if err != nil {
+		fmt.Printf("Failed to read OpenTrivia, reading from file: %s\n", err.Error())
+		question = quiz.readQuestionsFromJSON(configuration.QuestionFile)
+	}
+
+	return question
 }
 
 func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) []Question {

@@ -1,10 +1,17 @@
 # team-learning-go
 Team learning activity where the goal is to get familiar with Golang
 
+Open Trivia URL: (https://opentdb.com/api_config.php)
+
 TODO:
-- Make logic to choose between url and file read
 - Return errors from GetQuestions
-- Use Open Trivia to get questions and answers (https://opentdb.com/api_config.php)
+- Add error handling when reading JSON file
 - Write the rules of the game
+- Improve useability
+ - Number the questions
+ - Tell the user the correct answer if wrong
+ - Result is true is bad
+ - configure amount of questions
+ - Better end summary
 - Enable so that you can use multiple packages
-- Make unit tests using the library used in docklin
+- Make unit tests use Golang Mock?
