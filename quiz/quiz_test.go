@@ -106,8 +106,39 @@ func TestCreateTriviaURL(t *testing.T) {
 		Trivia:       trivia,
 	}
 
-	triviaURL := quiz.createTriviaURL(testConfiguration)
+	triviaURL, _ := quiz.createTriviaURL(testConfiguration)
 	assert.Equal(t, "trivia.com/api?amount=10&type=multiple&category=s&difficulty=s", triviaURL)
+}
+
+func TestCreateTriviaURLMissingMandatory(t *testing.T) {
+	var trivia = TriviaObject{
+		BaseURL: "trivia.com/api",
+	}
+	var testConfiguration = Configuration{
+		QuestionFile: "questions.json",
+		TriviaURL:    "trivia.com/api",
+		Trivia:       trivia,
+	}
+
+	_, err := quiz.createTriviaURL(testConfiguration)
+	assert.Error(t, err)
+
+}
+
+func TestCreateTriviaURLWrongBase(t *testing.T) {
+	var trivia = TriviaObject{
+		BaseURL: "this is not an url",
+		Amount:  "10",
+	}
+	var testConfiguration = Configuration{
+		QuestionFile: "questions.json",
+		TriviaURL:    "trivia.com/api",
+		Trivia:       trivia,
+	}
+
+	_, err := quiz.createTriviaURL(testConfiguration)
+	assert.Error(t, err)
+
 }
 
 func TestReadQuestionsFromURL(t *testing.T) {

@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -83,15 +84,26 @@ func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) Configuration {
 	return data
 }
 
-func (quiz *Quiz) createTriviaURL(configuration Configuration) string {
+func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 	base := configuration.Trivia.BaseURL
 	amount := configuration.Trivia.Amount
-	if not base or not amount{
-		fmt.Println("Error")
+	if base == "" || amount == "" {
+		err := fmt.Errorf("Mandatory configurations 'base_url' or/and 'amount' missing")
+		fmt.Println("Error:", err.Error())
+		return "", err
 	}
-	category := configuration.Trivia.Category
-	difficulty := configuration.Trivia.Difficulty
-	return ""
+	// category := configuration.Trivia.Category
+	// difficulty := configuration.Trivia.Difficulty
+	u, err := url.Parse(base)
+	if err != nil {
+		err := fmt.Errorf("Base url wrong")
+		fmt.Println("Error:", err.Error())
+		return "", err
+
+	}
+	fmt.Println(u.Host)
+
+	return "", nil
 }
 
 func (quiz *Quiz) readQuestionsFromURL(url string) ([]Question, error) {
