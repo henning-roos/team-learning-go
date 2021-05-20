@@ -19,12 +19,8 @@ const colorGreen string = "\033[32m"
 
 const randomizeAnswers bool = true
 
-var configuration = Configuration{
-	QuestionFile: "questions.json",
-	TriviaURL:    "https://opentdb.com/api.php?amount=10&type=multiple",
-}
-
 func run(quiz QuizInterface, stdin io.Reader) error {
+	configuration := quiz.ReadConfigurationFromYAML("config.yaml")
 	questions := quiz.GetQuestions(configuration)
 	correctAnswers := 0
 

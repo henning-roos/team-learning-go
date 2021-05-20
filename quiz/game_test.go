@@ -13,6 +13,11 @@ type QuizMock struct {
 	mock.Mock
 }
 
+func (quizMock *QuizMock) ReadConfigurationFromYAML(configuration Configuration) []Question {
+	args := quizMock.Called(configuration)
+	return args.Get(0).([]Question)
+}
+
 func (quizMock *QuizMock) GetQuestions(configuration Configuration) []Question {
 	args := quizMock.Called(configuration)
 	return args.Get(0).([]Question)

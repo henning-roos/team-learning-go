@@ -32,6 +32,7 @@ type OpenTriviaResponse struct {
 }
 
 type QuizInterface interface {
+	ReadConfigurationFromYAML(yamlFile string) Configuration
 	GetQuestions(configuration Configuration) []Question
 	GetAnswerMap(question Question, randomizeAnswers bool) map[string]string
 	GetUserInput(stdin io.Reader) (string, error)
