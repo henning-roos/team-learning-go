@@ -13,9 +13,9 @@ type QuizMock struct {
 	mock.Mock
 }
 
-func (quizMock *QuizMock) ReadConfigurationFromYAML(configuration Configuration) []Question {
-	args := quizMock.Called(configuration)
-	return args.Get(0).([]Question)
+func (quizMock *QuizMock) ReadConfigurationFromYAML(filePath string) Configuration {
+	args := quizMock.Called(filePath)
+	return args.Get(0).(Configuration)
 }
 
 func (quizMock *QuizMock) GetQuestions(configuration Configuration) []Question {
@@ -50,6 +50,7 @@ func (quizMock *QuizMock) FormatResult(numberCorrectAnswers int, numberQuestions
 
 func TestRun_AnswerCorrect(t *testing.T) {
 	quizMock := &QuizMock{}
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
 	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil)
@@ -62,6 +63,7 @@ func TestRun_AnswerCorrect(t *testing.T) {
 
 	run(quizMock, &stdin)
 
+	quizMock.AssertNumberOfCalls(t, "ReadConfigurationFromYAML", 1)
 	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
@@ -77,6 +79,7 @@ func TestRun_AnswerCorrect(t *testing.T) {
 
 func TestRun_AnswerWrong(t *testing.T) {
 	quizMock := &QuizMock{}
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
 	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
@@ -89,6 +92,7 @@ func TestRun_AnswerWrong(t *testing.T) {
 
 	run(quizMock, &stdin)
 
+	quizMock.AssertNumberOfCalls(t, "ReadConfigurationFromYAML", 1)
 	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
@@ -104,6 +108,7 @@ func TestRun_AnswerWrong(t *testing.T) {
 
 func TestRun_AnswerInvalid(t *testing.T) {
 	quizMock := &QuizMock{}
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
 	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
@@ -118,6 +123,7 @@ func TestRun_AnswerInvalid(t *testing.T) {
 
 	run(quizMock, &stdin)
 
+	quizMock.AssertNumberOfCalls(t, "ReadConfigurationFromYAML", 1)
 	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertNumberOfCalls(t, "GetAnswerMap", 1)
@@ -134,6 +140,7 @@ func TestRun_AnswerInvalid(t *testing.T) {
 
 func TestRun_MultipleQuestions(t *testing.T) {
 	quizMock := &QuizMock{}
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
 	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion, testQuestion2})
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap).Once()
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
@@ -149,6 +156,7 @@ func TestRun_MultipleQuestions(t *testing.T) {
 
 	run(quizMock, &stdin)
 
+	quizMock.AssertNumberOfCalls(t, "ReadConfigurationFromYAML", 1)
 	quizMock.AssertNumberOfCalls(t, "GetQuestions", 1)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion, true)
 	quizMock.AssertCalled(t, "GetAnswerMap", testQuestion2, true)

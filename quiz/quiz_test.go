@@ -9,6 +9,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var testConfiguration = Configuration{
+	QuestionFile: "Path.To.Some.File",
+	TriviaURL:    "url://to.trivia",
+}
+
 var testQuestion = Question{
 	Question:     "Which language is this written in?",
 	RightAnswer:  "Go",
