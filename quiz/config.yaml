@@ -4,8 +4,8 @@ trivia_url: "https://opentdb.com/api.php?amount=10&type=multiple"
 
 # For options see https://opentdb.com/api_config.php
 # type is hardcoded to "multiple"
-triva:
-  base_url: ""
+trivia:
+  base_url: "https://opentdb.com/api.php"
   amount: 10
   category: ""
   difficulty: ""

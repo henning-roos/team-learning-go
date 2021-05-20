@@ -18,6 +18,12 @@ import (
 type Configuration struct {
 	QuestionFile string `yaml:"question_file"`
 	TriviaURL    string `yaml:"trivia_url"`
+	Trivia       struct {
+		BaseURL    string `yaml:"base_url"`
+		Amount     string `yaml:"amount"`
+		Category   string `yaml:"category"`
+		Difficulty string `yaml:"difficulty"`
+	}
 }
 
 type Question struct {
@@ -73,6 +79,10 @@ func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) Configuration {
 	_ = yaml.Unmarshal([]byte(file), &data)
 
 	return data
+}
+
+func (quiz *Quiz) createTriviaURL(configuration Configuration) string {
+	return ""
 }
 
 func (quiz *Quiz) readQuestionsFromURL(url string) ([]Question, error) {
@@ -194,9 +204,9 @@ func (quiz *Quiz) randomizeAnswers(answers []string, randomizeSeed bool) []strin
 		seed = time.Now().UnixNano()
 	}
 
-	shuffeledAnswers := answers
+	shuffledAnswers := answers
 	rand.Seed(seed)
-	rand.Shuffle(len(shuffeledAnswers), func(i, j int) { shuffeledAnswers[i], shuffeledAnswers[j] = shuffeledAnswers[j], shuffeledAnswers[i] })
+	rand.Shuffle(len(shuffledAnswers), func(i, j int) { shuffledAnswers[i], shuffledAnswers[j] = shuffledAnswers[j], shuffledAnswers[i] })
 
-	return shuffeledAnswers
+	return shuffledAnswers
 }

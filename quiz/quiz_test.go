@@ -89,6 +89,24 @@ func TestReadConfigurationFromYAML(t *testing.T) {
 	configuration := quiz.ReadConfigurationFromYAML("config.yaml")
 	assert.NotEmpty(t, configuration.TriviaURL)
 	assert.NotEmpty(t, configuration.QuestionFile)
+	assert.NotEmpty(t, configuration.Trivia.BaseURL)
+	assert.NotEmpty(t, configuration.Trivia.Amount)
+}
+
+func TestCreateTriviaURL(t *testing.T) {
+	var testConfiguration = Configuration{
+		QuestionFile: "questions.json",
+		TriviaURL:    "trivia.com/api",
+		Trivia{
+			BaseURL:    "trivia.com/api",
+			Amount:     "10",
+			Category:   "s",
+			Difficulty: "s",
+		},
+	}
+
+	triviaURL := quiz.createTriviaURL(testConfiguration)
+	assert.Equal(t, 3, triviaURL)
 }
 
 func TestReadQuestionsFromURL(t *testing.T) {
