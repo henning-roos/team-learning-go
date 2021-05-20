@@ -7,8 +7,10 @@ TODO:
 - Return errors from GetQuestions
 - Add error handling when reading JSON file
 - Write the rules of the game
-- Improve useability
- - configure amount of questions
- - Better end summary
+- Add configuration option using YAML for 
+    - Amount of questions
+    - Url of trivia
+    - Json Backup file of question if internet is down
+    - Difficulty (no support yet)
 - Enable so that you can use multiple packages
 - Make unit tests use Golang Mock?
