@@ -94,19 +94,20 @@ func TestReadConfigurationFromYAML(t *testing.T) {
 }
 
 func TestCreateTriviaURL(t *testing.T) {
+	var trivia = TriviaObject{
+		BaseURL:    "trivia.com/api",
+		Amount:     "10",
+		Category:   "s",
+		Difficulty: "s",
+	}
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
 		TriviaURL:    "trivia.com/api",
-		Trivia{
-			BaseURL:    "trivia.com/api",
-			Amount:     "10",
-			Category:   "s",
-			Difficulty: "s",
-		},
+		Trivia:       trivia,
 	}
 
 	triviaURL := quiz.createTriviaURL(testConfiguration)
-	assert.Equal(t, 3, triviaURL)
+	assert.Equal(t, "trivia.com/api?amount=10&type=multiple&category=s&difficulty=s", triviaURL)
 }
 
 func TestReadQuestionsFromURL(t *testing.T) {

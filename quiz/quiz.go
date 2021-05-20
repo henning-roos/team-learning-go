@@ -15,15 +15,17 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type TriviaObject struct {
+	BaseURL    string `yaml:"base_url"`
+	Amount     string `yaml:"amount"`
+	Category   string `yaml:"category"`
+	Difficulty string `yaml:"difficulty"`
+}
+
 type Configuration struct {
 	QuestionFile string `yaml:"question_file"`
 	TriviaURL    string `yaml:"trivia_url"`
-	Trivia       struct {
-		BaseURL    string `yaml:"base_url"`
-		Amount     string `yaml:"amount"`
-		Category   string `yaml:"category"`
-		Difficulty string `yaml:"difficulty"`
-	}
+	Trivia       TriviaObject
 }
 
 type Question struct {
@@ -82,6 +84,13 @@ func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) Configuration {
 }
 
 func (quiz *Quiz) createTriviaURL(configuration Configuration) string {
+	base := configuration.Trivia.BaseURL
+	amount := configuration.Trivia.Amount
+	if not base or not amount{
+		fmt.Println("Error")
+	}
+	category := configuration.Trivia.Category
+	difficulty := configuration.Trivia.Difficulty
 	return ""
 }
 
