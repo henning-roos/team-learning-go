@@ -24,21 +24,24 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 	correctAnswers := 0
 
 	for _, question := range questions {
-		answer := quiz.GetAnswerMap(question, randomizeAnswers)
+		answerMap := quiz.GetAnswerMap(question, randomizeAnswers)
 
-		fmt.Println(quiz.FormatQuestion(question, answer))
+		fmt.Println(quiz.FormatQuestion(question, answerMap))
 
 		for {
 			userInput, inputError := quiz.GetUserInput(stdin)
 			if inputError != nil {
 				return inputError
 			}
-			isAnswerCorrect, verificationError := quiz.Verify(question, answer, userInput)
+			isAnswerCorrect, verificationError := quiz.Verify(question, answerMap, userInput)
 
 			if verificationError == nil {
-				fmt.Printf("Result is: %t\n", isAnswerCorrect)
 				if isAnswerCorrect {
+					fmt.Println("Your answer is correct.\n")
 					correctAnswers++
+				} else {
+					fmt.Println("Your answer is wrong.\n")
+					//questions.Rightanswer
 				}
 				break
 			} else {

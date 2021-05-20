@@ -120,7 +120,7 @@ func (quiz *Quiz) GetUserInput(stdin io.Reader) (string, error) {
 
 func (quiz *Quiz) FormatQuestion(question Question, answerMap map[string]string) string {
 	questionAndAnswers := fmt.Sprintf(
-		"Question: %s\n1: %s\n2: %s\n3: %s\n4: %s\nAnswer: ",
+		"\nQuestion: %s\n1: %s\n2: %s\n3: %s\n4: %s\nAnswer: ",
 		question.Question,
 		answerMap["1"],
 		answerMap["2"],
