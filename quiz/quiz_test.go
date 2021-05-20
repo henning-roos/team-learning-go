@@ -176,7 +176,7 @@ func TestRandomizeAnswers(t *testing.T) {
 
 func TestFormatQuestion(t *testing.T) {
 	actualQandA := quiz.FormatQuestion(testQuestion, testAnswerMap)
-	expectedQandA := "Question: Which language is this written in?\n" +
+	expectedQandA := "\nQuestion: Which language is this written in?\n" +
 		"1: Ruby\n" +
 		"2: Java\n" +
 		"3: Python\n" +

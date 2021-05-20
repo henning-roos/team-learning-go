@@ -12,6 +12,11 @@ func main() {
 	run(quiz, stdin)
 }
 
+// https://golangbyexample.com/print-output-text-color-console/
+const colorReset string = "\033[0m"
+const colorRed string = "\033[31m"
+const colorGreen string = "\033[32m"
+
 const randomizeAnswers bool = true
 
 var configuration = Configuration{
@@ -23,9 +28,10 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 	questions := quiz.GetQuestions(configuration)
 	correctAnswers := 0
 
-	for _, question := range questions {
+	for index, question := range questions {
 		answerMap := quiz.GetAnswerMap(question, randomizeAnswers)
 
+		fmt.Printf("%d/%d", index+1, len(questions))
 		fmt.Println(quiz.FormatQuestion(question, answerMap))
 
 		for {
@@ -37,11 +43,10 @@ func run(quiz QuizInterface, stdin io.Reader) error {
 
 			if verificationError == nil {
 				if isAnswerCorrect {
-					fmt.Println("Your answer is correct.\n")
+					fmt.Printf("Your answer is %scorrect%s.\n\n", colorGreen, colorReset)
 					correctAnswers++
 				} else {
-					fmt.Println("Your answer is wrong.\n")
-					//questions.Rightanswer
+					fmt.Printf("Your answer is %swrong%s. The correct answer is '%s'\n\n", colorRed, colorReset, question.RightAnswer)
 				}
 				break
 			} else {
