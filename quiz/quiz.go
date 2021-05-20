@@ -11,11 +11,13 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"gopkg.in/yaml.v2"
 )
 
 type Configuration struct {
-	QuestionFile string
-	TriviaURL    string
+	QuestionFile string `yaml:"question_file"`
+	TriviaURL    string `yaml:"trivia_url"`
 }
 
 type Question struct {
@@ -58,6 +60,16 @@ func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) []Question {
 	var data []Question
 
 	_ = json.Unmarshal([]byte(file), &data)
+
+	return data
+}
+
+func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) Configuration {
+	file, _ := ioutil.ReadFile(yamlFile)
+
+	var data Configuration
+
+	_ = yaml.Unmarshal([]byte(file), &data)
 
 	return data
 }

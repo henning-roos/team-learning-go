@@ -80,6 +80,12 @@ func TestReadQuestionsFromJSON(t *testing.T) {
 	assert.Equal(t, 3, len(questions))
 }
 
+func TestReadConfigurationFromYAML(t *testing.T) {
+	configuration := quiz.ReadConfigurationFromYAML("config.yaml")
+	assert.NotEmpty(t, configuration.TriviaURL)
+	assert.NotEmpty(t, configuration.QuestionFile)
+}
+
 func TestReadQuestionsFromURL(t *testing.T) {
 	okResponse := func(res http.ResponseWriter, req *http.Request) {
 		jsonData := `{"response_code":0,"results":[{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"In &quot;Call Of Duty: Zombies&quot;, which map features the &quot;Fly Trap&quot; easter egg?","correct_answer":"Der Riese","incorrect_answers":["Tranzit","Call Of The Dead","Shi No Numa"]}]}`
