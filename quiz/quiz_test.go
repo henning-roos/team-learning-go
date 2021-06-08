@@ -125,7 +125,7 @@ func TestCreateTriviaURLMissingMandatory(t *testing.T) {
 
 }
 
-func TestCreateTriviaURLWrongBase(t *testing.T) {
+func TestCreateTriviaURLMissingHost(t *testing.T) {
 	var trivia = TriviaObject{
 		BaseURL: "this is not an url",
 		Amount:  "10",
@@ -137,8 +137,22 @@ func TestCreateTriviaURLWrongBase(t *testing.T) {
 	}
 
 	_, err := quiz.createTriviaURL(testConfiguration)
-	assert.Error(t, err)
+	assert.Equal(t, err.Error(), "base_url is missing scheme or host")
+}
 
+func TestCreateTriviaURLMissingSchema(t *testing.T) {
+	var trivia = TriviaObject{
+		BaseURL: "this is not an url",
+		Amount:  "10",
+	}
+	var testConfiguration = Configuration{
+		QuestionFile: "questions.json",
+		TriviaURL:    "trivia.com/api",
+		Trivia:       trivia,
+	}
+
+	_, err := quiz.createTriviaURL(testConfiguration)
+	assert.Equal(t, err.Error(), "base_url is missing scheme or host")
 }
 
 func TestReadQuestionsFromURL(t *testing.T) {

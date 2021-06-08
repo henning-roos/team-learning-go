@@ -96,10 +96,14 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 	// difficulty := configuration.Trivia.Difficulty
 	triviaUrl, err := url.Parse(base)
 	if err != nil {
-		err := fmt.Errorf("Base url wrong")
 		fmt.Println("Error:", err.Error())
 		return "", err
 
+	}
+	if triviaUrl.Scheme == "" || triviaUrl.Host == "" {
+		err := fmt.Errorf("base_url is missing scheme or host")
+		fmt.Println("Error:", err.Error())
+		return "", err
 	}
 	params := url.Values{}
 	params.Add("amount", amount)
