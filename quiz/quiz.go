@@ -25,8 +25,8 @@ type TriviaObject struct {
 
 type Configuration struct {
 	QuestionFile string `yaml:"question_file"`
-	TriviaURL    string `yaml:"trivia_url"`
-	Trivia       TriviaObject
+	//TriviaURL    string `yaml:"trivia_url"`
+	Trivia TriviaObject
 }
 
 type Question struct {
@@ -55,7 +55,12 @@ type Quiz struct {
 }
 
 func (quiz *Quiz) GetQuestions(configuration Configuration) []Question {
-	question, err := quiz.readQuestionsFromURL(configuration.TriviaURL)
+	triviaUrl, err := quiz.createTriviaURL(configuration)
+	if err != nil {
+		fmt.Printf("Failed to build URL: %s\n", err.Error())
+	}
+	// TODO: Avoid always reading from URL? (if createTriviaURL failed, for instance)
+	question, err := quiz.readQuestionsFromURL(triviaUrl)
 	if err != nil {
 		fmt.Printf("Failed to read OpenTrivia, reading from file: %s\n", err.Error())
 		question = quiz.readQuestionsFromJSON(configuration.QuestionFile)
@@ -92,8 +97,7 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 		fmt.Println("Error:", err.Error())
 		return "", err
 	}
-	// category := configuration.Trivia.Category
-	// difficulty := configuration.Trivia.Difficulty
+
 	triviaUrl, err := url.Parse(base)
 	if err != nil {
 		fmt.Println("Error:", err.Error())
@@ -119,11 +123,6 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 	}
 
 	triviaUrl.RawQuery = params.Encode()
-
-	fmt.Println("DEBUG INFO")
-	fmt.Println(triviaUrl)
-	fmt.Println(triviaUrl.Host)
-	fmt.Println(triviaUrl.Query())
 
 	return triviaUrl.String(), nil
 }

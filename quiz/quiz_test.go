@@ -11,7 +11,6 @@ import (
 
 var testConfiguration = Configuration{
 	QuestionFile: "Path.To.Some.File",
-	TriviaURL:    "url://to.trivia",
 }
 
 var testQuestion = Question{
@@ -51,9 +50,16 @@ func TestGetQuestions(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(okResponse))
 	defer func() { testServer.Close() }()
 
+	var trivia = TriviaObject{
+		BaseURL:    testServer.URL,
+		Amount:     "10",
+		Category:   "s",
+		Difficulty: "s",
+	}
+
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
-		TriviaURL:    testServer.URL,
+		Trivia:       trivia,
 	}
 
 	questions := quiz.GetQuestions(testConfiguration)
@@ -70,7 +76,6 @@ func TestGetQuestionsBadUrl(t *testing.T) {
 
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
-		TriviaURL:    testServer.URL,
 	}
 
 	questions := quiz.GetQuestions(testConfiguration)
@@ -87,7 +92,6 @@ func TestReadQuestionsFromJSON(t *testing.T) {
 
 func TestReadConfigurationFromYAML(t *testing.T) {
 	configuration := quiz.ReadConfigurationFromYAML("config.yaml")
-	assert.NotEmpty(t, configuration.TriviaURL)
 	assert.NotEmpty(t, configuration.QuestionFile)
 	assert.NotEmpty(t, configuration.Trivia.BaseURL)
 	assert.NotEmpty(t, configuration.Trivia.Amount)
@@ -95,19 +99,18 @@ func TestReadConfigurationFromYAML(t *testing.T) {
 
 func TestCreateTriviaURL(t *testing.T) {
 	var trivia = TriviaObject{
-		BaseURL:    "trivia.com/api",
+		BaseURL:    "http://trivia.com/api",
 		Amount:     "10",
 		Category:   "s",
 		Difficulty: "s",
 	}
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
-		TriviaURL:    "trivia.com/api",
 		Trivia:       trivia,
 	}
 
 	triviaURL, _ := quiz.createTriviaURL(testConfiguration)
-	assert.Equal(t, "trivia.com/api?amount=10&category=s&difficulty=s&type=multiple", triviaURL)
+	assert.Equal(t, "http://trivia.com/api?amount=10&category=s&difficulty=s&type=multiple", triviaURL)
 }
 
 func TestCreateTriviaURLMissingMandatory(t *testing.T) {
@@ -116,7 +119,6 @@ func TestCreateTriviaURLMissingMandatory(t *testing.T) {
 	}
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
-		TriviaURL:    "trivia.com/api",
 		Trivia:       trivia,
 	}
 
@@ -132,7 +134,6 @@ func TestCreateTriviaURLMissingHost(t *testing.T) {
 	}
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
-		TriviaURL:    "trivia.com/api",
 		Trivia:       trivia,
 	}
 
@@ -147,22 +148,6 @@ func TestCreateTriviaURLMissingSchema(t *testing.T) {
 	}
 	var testConfiguration = Configuration{
 		QuestionFile: "questions.json",
-		TriviaURL:    "trivia.com/api",
-		Trivia:       trivia,
-	}
-
-	_, err := quiz.createTriviaURL(testConfiguration)
-	assert.Equal(t, err.Error(), "base_url is missing scheme or host")
-}
-
-func TestCreateTriviaInvalidUrl(t *testing.T) {
-	var trivia = TriviaObject{
-		BaseURL: "https://emelie:password@hgfhfghfg",
-		Amount:  "10",
-	}
-	var testConfiguration = Configuration{
-		QuestionFile: "questions.json",
-		TriviaURL:    "trivia.com/api",
 		Trivia:       trivia,
 	}
 
