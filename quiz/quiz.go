@@ -94,7 +94,7 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 	}
 	// category := configuration.Trivia.Category
 	// difficulty := configuration.Trivia.Difficulty
-	u, err := url.Parse(base)
+	triviaUrl, err := url.Parse(base)
 	if err != nil {
 		err := fmt.Errorf("Base url wrong")
 		fmt.Println("Error:", err.Error())
@@ -105,13 +105,23 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 	params.Add("amount", amount)
 	params.Add("type", "multiple")
 
-	u.RawQuery := params.Encode()
+	category := configuration.Trivia.Category
+	difficulty := configuration.Trivia.Difficulty
+	if category != "" {
+		params.Add("category", category)
+	}
+	if difficulty != "" {
+		params.Add("difficulty", difficulty)
+	}
+
+	triviaUrl.RawQuery = params.Encode()
 
 	fmt.Println("DEBUG INFO")
-	fmt.Println(u)
-	fmt.Println(u.Host)
+	fmt.Println(triviaUrl)
+	fmt.Println(triviaUrl.Host)
+	fmt.Println(triviaUrl.Query())
 
-	return u.Path, nil
+	return triviaUrl.String(), nil
 }
 
 func (quiz *Quiz) readQuestionsFromURL(url string) ([]Question, error) {

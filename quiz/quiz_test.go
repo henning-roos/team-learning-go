@@ -107,7 +107,7 @@ func TestCreateTriviaURL(t *testing.T) {
 	}
 
 	triviaURL, _ := quiz.createTriviaURL(testConfiguration)
-	assert.Equal(t, "trivia.com/api?amount=10&type=multiple&category=s&difficulty=s", triviaURL)
+	assert.Equal(t, "trivia.com/api?amount=10&category=s&difficulty=s&type=multiple", triviaURL)
 }
 
 func TestCreateTriviaURLMissingMandatory(t *testing.T) {
