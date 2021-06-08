@@ -101,9 +101,11 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 		return "", err
 
 	}
+	fmt.Println("DEBUG INFO")
+	fmt.Println(u)
 	fmt.Println(u.Host)
 
-	return "", nil
+	return u.Path, nil
 }
 
 func (quiz *Quiz) readQuestionsFromURL(url string) ([]Question, error) {
