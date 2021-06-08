@@ -25,8 +25,7 @@ type TriviaObject struct {
 
 type Configuration struct {
 	QuestionFile string `yaml:"question_file"`
-	//TriviaURL    string `yaml:"trivia_url"`
-	Trivia TriviaObject
+	Trivia       TriviaObject
 }
 
 type Question struct {
