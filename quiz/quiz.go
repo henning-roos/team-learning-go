@@ -101,6 +101,12 @@ func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
 		return "", err
 
 	}
+	params := url.Values{}
+	params.Add("amount", amount)
+	params.Add("type", "multiple")
+
+	u.RawQuery := params.Encode()
+
 	fmt.Println("DEBUG INFO")
 	fmt.Println(u)
 	fmt.Println(u.Host)
