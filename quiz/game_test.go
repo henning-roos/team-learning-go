@@ -13,14 +13,14 @@ type QuizMock struct {
 	mock.Mock
 }
 
-func (quizMock *QuizMock) ReadConfigurationFromYAML(filePath string) Configuration {
+func (quizMock *QuizMock) ReadConfigurationFromYAML(filePath string) (Configuration, error) {
 	args := quizMock.Called(filePath)
-	return args.Get(0).(Configuration)
+	return args.Get(0).(Configuration), args.Error(1)
 }
 
-func (quizMock *QuizMock) GetQuestions(configuration Configuration) []Question {
+func (quizMock *QuizMock) GetQuestions(configuration Configuration) ([]Question, error) {
 	args := quizMock.Called(configuration)
-	return args.Get(0).([]Question)
+	return args.Get(0).([]Question), args.Error(1)
 }
 
 func (quizMock *QuizMock) GetAnswerMap(question Question, randomizeAnswers bool) map[string]string {
@@ -50,8 +50,8 @@ func (quizMock *QuizMock) FormatResult(numberCorrectAnswers int, numberQuestions
 
 func TestRun_AnswerCorrect(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
-	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion})
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration, nil)
+	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion}, nil)
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
@@ -79,8 +79,8 @@ func TestRun_AnswerCorrect(t *testing.T) {
 
 func TestRun_AnswerWrong(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
-	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion})
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration, nil)
+	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion}, nil)
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("GetUserInput", mock.Anything).Return("1", nil)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
@@ -108,8 +108,8 @@ func TestRun_AnswerWrong(t *testing.T) {
 
 func TestRun_AnswerInvalid(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
-	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion})
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration, nil)
+	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion}, nil)
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap)
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
 	quizMock.On("GetUserInput", mock.Anything).Return("bad input", nil).Once()
@@ -140,8 +140,8 @@ func TestRun_AnswerInvalid(t *testing.T) {
 
 func TestRun_MultipleQuestions(t *testing.T) {
 	quizMock := &QuizMock{}
-	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration)
-	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion, testQuestion2})
+	quizMock.On("ReadConfigurationFromYAML", mock.Anything).Return(testConfiguration, nil)
+	quizMock.On("GetQuestions", mock.Anything).Return([]Question{testQuestion, testQuestion2}, nil)
 	quizMock.On("GetAnswerMap", mock.Anything, mock.Anything).Return(testAnswerMap).Once()
 	quizMock.On("FormatQuestion", mock.Anything, mock.Anything).Return("Formatted question")
 	quizMock.On("GetUserInput", mock.Anything).Return("2", nil).Once()

@@ -90,18 +90,17 @@ func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) ([]Question, error) {
 }
 
 func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) (Configuration, error) {
+	var data Configuration
 	file, err := ioutil.ReadFile(yamlFile)
 	if err != nil {
 		fmt.Printf("Failed to read configuration from file %s: %s\n", yamlFile, err.Error())
-		return nil, err
+		return data, err
 	}
-
-	var data Configuration
 
 	err = yaml.Unmarshal([]byte(file), &data)
 	if err != nil {
 		fmt.Printf("Failed to parse YAML file %s: %s\n", yamlFile, err.Error())
-		return nil, err
+		return data, err
 	}
 
 	return data, nil

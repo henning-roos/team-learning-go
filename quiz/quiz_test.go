@@ -62,7 +62,7 @@ func TestGetQuestions(t *testing.T) {
 		Trivia:       trivia,
 	}
 
-	questions := quiz.GetQuestions(testConfiguration)
+	questions, _ := quiz.GetQuestions(testConfiguration)
 	assert.Equal(t, 1, len(questions))
 }
 
@@ -78,12 +78,12 @@ func TestGetQuestionsBadUrl(t *testing.T) {
 		QuestionFile: "questions.json",
 	}
 
-	questions := quiz.GetQuestions(testConfiguration)
+	questions, _ := quiz.GetQuestions(testConfiguration)
 	assert.Equal(t, 3, len(questions))
 }
 
 func TestReadQuestionsFromJSON(t *testing.T) {
-	questions := quiz.readQuestionsFromJSON("questions.json")
+	questions, _ := quiz.readQuestionsFromJSON("questions.json")
 	assert.Equal(t, "What is blue and yellow together? (using watercolors)", questions[0].Question)
 	assert.Equal(t, "Green", questions[0].RightAnswer)
 	assert.Equal(t, "Red", questions[0].WrongAnswers[0])
@@ -91,7 +91,7 @@ func TestReadQuestionsFromJSON(t *testing.T) {
 }
 
 func TestReadConfigurationFromYAML(t *testing.T) {
-	configuration := quiz.ReadConfigurationFromYAML("config.yaml")
+	configuration, _ := quiz.ReadConfigurationFromYAML("config.yaml")
 	assert.NotEmpty(t, configuration.QuestionFile)
 	assert.NotEmpty(t, configuration.Trivia.BaseURL)
 	assert.NotEmpty(t, configuration.Trivia.Amount)
