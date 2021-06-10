@@ -1,0 +1,11 @@
+
+question_file: "resources/questions.json"
+
+# For options see https://opentdb.com/api_config.php
+# type is hardcoded to "multiple"
+trivia:
+  base_url: "https://opentdb.com/api.php"
+  amount: 10
+  category: ""
+  difficulty: ""
+
