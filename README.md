@@ -12,14 +12,14 @@ Open Trivia URL: (https://opentdb.com/api_config.php)
 ### Running the quiz game
 On Linux
 ```bash
-cd quiz
+cd trivia
 go build
-./quiz
+./trivia
 ```
 
 On Windows
 ```bash
-cd quiz
+cd trivia
 go build
-quiz.exe
+trivia.exe
 ```

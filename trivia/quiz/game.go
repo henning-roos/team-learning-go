@@ -1,16 +1,9 @@
-package main
+package quiz
 
 import (
 	"fmt"
 	"io"
-	"os"
 )
-
-func main() {
-	stdin := os.Stdin
-	quiz := &Quiz{}
-	run(quiz, stdin)
-}
 
 // https://golangbyexample.com/print-output-text-color-console/
 const colorReset string = "\033[0m"
@@ -19,8 +12,8 @@ const colorGreen string = "\033[32m"
 
 const randomizeAnswers bool = true
 
-func run(quiz QuizInterface, stdin io.Reader) error {
-	configuration, err := quiz.ReadConfigurationFromYAML("config.yaml")
+func Run(quiz QuizInterface, stdin io.Reader) error {
+	configuration, err := quiz.ReadConfigurationFromYAML("resources/config.yaml")
 	if err != nil {
 		return err
 	}

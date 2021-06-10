@@ -1,4 +1,4 @@
-module quiz
+module trivia
 
 go 1.15
 
