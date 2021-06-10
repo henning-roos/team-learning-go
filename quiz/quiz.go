@@ -40,8 +40,8 @@ type OpenTriviaResponse struct {
 }
 
 type QuizInterface interface {
-	ReadConfigurationFromYAML(yamlFile string) Configuration
-	GetQuestions(configuration Configuration) []Question
+	ReadConfigurationFromYAML(yamlFile string) (Configuration, error)
+	GetQuestions(configuration Configuration) ([]Question, error)
 	GetAnswerMap(question Question, randomizeAnswers bool) map[string]string
 	GetUserInput(stdin io.Reader) (string, error)
 	FormatQuestion(question Question, answerMap map[string]string) string
@@ -53,39 +53,58 @@ type Quiz struct {
 	questions []Question
 }
 
-func (quiz *Quiz) GetQuestions(configuration Configuration) []Question {
+func (quiz *Quiz) GetQuestions(configuration Configuration) ([]Question, error) {
 	triviaUrl, err := quiz.createTriviaURL(configuration)
 	if err != nil {
 		fmt.Printf("Failed to build URL: %s\n", err.Error())
 	}
 	// TODO: Avoid always reading from URL? (if createTriviaURL failed, for instance)
-	question, err := quiz.readQuestionsFromURL(triviaUrl)
+	questions, err := quiz.readQuestionsFromURL(triviaUrl)
 	if err != nil {
 		fmt.Printf("Failed to read OpenTrivia, reading from file: %s\n", err.Error())
-		question = quiz.readQuestionsFromJSON(configuration.QuestionFile)
+		questions, err = quiz.readQuestionsFromJSON(configuration.QuestionFile)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	return question
+	return questions, nil
 }
 
-func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) []Question {
-	file, _ := ioutil.ReadFile(jsonFile)
+func (quiz *Quiz) readQuestionsFromJSON(jsonFile string) ([]Question, error) {
+	file, err := ioutil.ReadFile(jsonFile)
+	if err != nil {
+		fmt.Printf("Failed to read from file %s: %s\n", jsonFile, err.Error())
+		return nil, err
+	}
 
 	var data []Question
 
-	_ = json.Unmarshal([]byte(file), &data)
+	err = json.Unmarshal([]byte(file), &data)
+	if err != nil {
+		fmt.Printf("Failed to parse JSON file %s: %s\n", jsonFile, err.Error())
+		return nil, err
+	}
 
-	return data
+	return data, nil
 }
 
-func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) Configuration {
-	file, _ := ioutil.ReadFile(yamlFile)
+func (quiz *Quiz) ReadConfigurationFromYAML(yamlFile string) (Configuration, error) {
+	file, err := ioutil.ReadFile(yamlFile)
+	if err != nil {
+		fmt.Printf("Failed to read configuration from file %s: %s\n", yamlFile, err.Error())
+		return nil, err
+	}
 
 	var data Configuration
 
-	_ = yaml.Unmarshal([]byte(file), &data)
+	err = yaml.Unmarshal([]byte(file), &data)
+	if err != nil {
+		fmt.Printf("Failed to parse YAML file %s: %s\n", yamlFile, err.Error())
+		return nil, err
+	}
 
-	return data
+	return data, nil
 }
 
 func (quiz *Quiz) createTriviaURL(configuration Configuration) (string, error) {
